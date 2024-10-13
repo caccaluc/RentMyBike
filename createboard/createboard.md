@@ -3,7 +3,7 @@
 ![Use case diagram](figures/uc-diagram.drawio.svg)
 
 ## IDEEN-BESCHREIBUNG
-RentMyBike ist eine Peer-to-Peer-Motorradvermietungsplattform, die es Motorradbesitzern ermöglicht, ihre ungenutzten Motorräder zu vermieten und gleichzeitig interessierten Mietern kurzfristig und flexibel Zugang zu hochwertigen Motorrädern zu bieten. Die App verbindet beide Seiten durch ein sicheres und einfaches System, das alle Schritte – von der Verfügbarkeit und Buchung bis hin zur Versicherung und Bezahlung – in einem digitalen Ökosystem vereint. Sie bietet Flexibilität für Mieter und eine neue Einkommensquelle für Besitzer.
+RentMyBike ist eine Peer-to-Peer-Motorradvermietungsplattform, die es Motorradbesitzern ermöglicht, ihre ungenutzten Motorräder zu vermieten und gleichzeitig interessierten Mietern kurzfristig und flexibel Zugang zu hochwertigen Motorrädern zu bieten. Sie bietet Flexibilität für Mieter und eine neue Einkommensquelle für Besitzer.
 
 ## ADRESSIERTE NUTZER
 - Motorradbesitzer: Personen, die ein Motorrad besitzen, es aber nur selten nutzen, etwa nur an Wochenenden oder saisonal. Sie möchten ihre Motorräder nicht ungenutzt lassen und durch Vermietung zusätzlichen Gewinn erzielen.

@@ -10,7 +10,6 @@
 - Versicherungsunternehmen: Partnerschaften mit Versicherungen wie Allianz oder HUK-Coburg für temporäre Versicherungspakete während der Miete.
 - Plattformen für Fahrzeugverleih: Wettbewerber wie Turo (Autovermietung) und Getaround könnten als Inspiration dienen, obwohl sie sich hauptsächlich auf Autos konzentrieren. Plattformen wie "EagleRider" bieten bereits Motorräder an, aber oft in eher festgelegten, weniger flexiblen Formaten.
 - Motorradclubs und Foren: Potentielle Partner für den Aufbau einer Community könnten Motorradclubs oder Online-Foren für Biker sein, die bereits eine leidenschaftliche Nutzerbasis haben.
-- Werkstätten und Zubehörhändler: Partnerschaften mit Werkstätten oder Händlern für Wartungspakete und Zubehör könnten zusätzlichen Nutzen bieten.
 
 ## FAKTEN
 - Marktwachstum der Sharing Economy: Laut Statista wächst der Markt der Sharing Economy jährlich um ca. 30%. Besonders Fahrzeug- und Mobilitätsplattformen sind ein wachsender Sektor.
