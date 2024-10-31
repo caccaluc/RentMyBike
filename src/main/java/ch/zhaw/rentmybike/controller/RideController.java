@@ -1,5 +1,6 @@
 package ch.zhaw.rentmybike.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,20 @@ public class RideController {
         if (rideOptional.isPresent()) {
             Ride ride = rideOptional.get();
             ride.setStatus(status);
+            rideRepository.save(ride);
+            return ResponseEntity.ok(ride);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // Ride beenden (Status auf COMPLETED setzen)
+    @PutMapping("/{id}/complete")
+    public ResponseEntity<Ride> completeRide(@PathVariable String id) {
+        Optional<Ride> rideOptional = rideRepository.findById(id);
+        if (rideOptional.isPresent()) {
+            Ride ride = rideOptional.get();
+            ride.setStatus(RideStatus.COMPLETED);
+            ride.setEndingTime(LocalDateTime.now());
             rideRepository.save(ride);
             return ResponseEntity.ok(ride);
         }
