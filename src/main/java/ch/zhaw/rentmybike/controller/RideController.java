@@ -43,4 +43,13 @@ public class RideController {
         return ride.map(ResponseEntity::ok)
                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    // 5. Rides eines bestimmten Vermieters abrufen
+    @GetMapping("/owner/{ownerId}")
+    public List<Ride> getRidesByOwnerId(@PathVariable String ownerId) {
+        return rideRepository.findByOwnerId(ownerId);
+    }
+
+
+
 }
