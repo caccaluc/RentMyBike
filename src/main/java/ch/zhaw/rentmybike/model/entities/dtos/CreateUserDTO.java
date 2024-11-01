@@ -1,4 +1,4 @@
-package ch.zhaw.rentmybike.dtos;
+package ch.zhaw.rentmybike.model.entities.dtos;
 
 import java.time.LocalDate;
 import java.util.List;
