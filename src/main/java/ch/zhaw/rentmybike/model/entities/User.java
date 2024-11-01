@@ -41,7 +41,7 @@ public class User {
     private String adressID;
     @NonNull
     private Map<String, Map<String, Integer>> ratings = new HashMap<>();
-    private List<String> carIds = new java.util.ArrayList<>();
+    private List<String> motorcycleIds = new java.util.ArrayList<>();
 
     public enum UserState {
         NEW, // New user, not yet activated
