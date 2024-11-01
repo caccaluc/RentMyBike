@@ -1,7 +1,13 @@
 package ch.zhaw.rentmybike.dtos;
 
 import ch.zhaw.rentmybike.model.entities.User.UserState;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter 
+@Setter 
+@NoArgsConstructor
 public class UserDTO {
     private String id;
     private String firstName;
