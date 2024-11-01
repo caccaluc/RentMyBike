@@ -1,6 +1,7 @@
 package ch.zhaw.rentmybike.model.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.lang.NonNull;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Document("Adress")
 public class Adress {
 
     @Id
