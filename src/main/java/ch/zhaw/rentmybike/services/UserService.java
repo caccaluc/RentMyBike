@@ -23,4 +23,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User verifyUser(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (user.getState() == UserState.NEW) {
+            user.setState(UserState.ACTIVE);
+            return userRepository.save(user);
+        }
+        throw new IllegalStateException("User is not in a verifiable state");
+    }
+
 }
