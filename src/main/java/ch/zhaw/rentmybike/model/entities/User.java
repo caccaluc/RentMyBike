@@ -38,7 +38,7 @@ public class User {
     private double averageRating = 0.0;
     @NonNull
     private int numberOfRatings = 0;
-    private String adressID;
+    private Adress adressID;
     @NonNull
     private Map<String, Map<String, Integer>> ratings = new HashMap<>();
     private List<String> motorcycleIds = new java.util.ArrayList<>();

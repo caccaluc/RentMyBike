@@ -1,4 +1,4 @@
-package ch.zhaw.rentmybike.model.entities.dtos;
+package ch.zhaw.rentmybike.model.dtos;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateUserDTO {
     
-    private String id;
     private String firstName; 
     private String lastName; 
     private String email; 

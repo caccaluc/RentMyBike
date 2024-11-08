@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.zhaw.rentmybike.dtos.UserDTO;
+import ch.zhaw.rentmybike.model.dtos.CreateUserDTO;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.services.UserService;
 
@@ -22,9 +22,9 @@ public class UserController {
     private UserService userService;
 
     // Registrierung eines neuen Users
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody UserDTO userDTO) {
-        User user = userService.registerUser(userDTO);
+    @PostMapping("/create")
+    public ResponseEntity<User> createUser(@RequestBody CreateUserDTO createUserDTO) {
+        User user = userService.createUser(createUserDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 

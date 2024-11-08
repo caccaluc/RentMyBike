@@ -13,11 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Document("Adress")
+
 public class Adress {
 
-    @Id
-    private String id;
+  
     @NonNull
     private String country;
     @NonNull
@@ -28,6 +27,10 @@ public class Adress {
     private String street;
     @NonNull
     private int streetNumber;
+    public void setId(String addressId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+    }
 
 
 }

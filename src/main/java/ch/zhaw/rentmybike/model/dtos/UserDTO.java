@@ -1,4 +1,4 @@
-package ch.zhaw.rentmybike.model.entities.dtos;
+package ch.zhaw.rentmybike.model.dtos;
 
 import ch.zhaw.rentmybike.model.entities.User.UserState;
 import lombok.Getter;

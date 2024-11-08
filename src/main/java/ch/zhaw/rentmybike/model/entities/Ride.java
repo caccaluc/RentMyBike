@@ -20,9 +20,9 @@ public class Ride {
     @Id
     private String id;
     @NonNull
-    private User OwnerId;
+    private String OwnerId;
     @NonNull
-    private User RenterId;
+    private String RenterId;
     @NonNull
     private Motorcycle motorcycleId;
     @NonNull

@@ -21,7 +21,7 @@ import ch.zhaw.rentmybike.model.entities.Ride.RideStatus;
 import ch.zhaw.rentmybike.repository.RideRepository;
 
 @RestController
-@RequestMapping("/rides")
+@RequestMapping("api/rides")
 public class RideController {
 
     @Autowired
