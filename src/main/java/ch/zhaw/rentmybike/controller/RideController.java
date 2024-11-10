@@ -16,9 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.zhaw.rentmybike.model.dtos.CreateRideDTO;
 import ch.zhaw.rentmybike.model.entities.Ride;
 import ch.zhaw.rentmybike.model.entities.Ride.RideStatus;
 import ch.zhaw.rentmybike.repository.RideRepository;
+import ch.zhaw.rentmybike.services.RideService;
+import ch.zhaw.rentmybike.services.UserService;
 
 @RestController
 @RequestMapping("api/rides")
@@ -26,11 +29,15 @@ public class RideController {
 
     @Autowired
     private RideRepository rideRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RideService rideService;
     
     // Erstellen eines neuen Ride
-    @PostMapping("/create")
-    public ResponseEntity<Ride> createRide(@RequestBody Ride ride) {
-        Ride newRide = rideRepository.save(ride);
+   @PostMapping("/create")
+    public ResponseEntity<Ride> createRide(@RequestBody CreateRideDTO createRideDTO, @RequestParam String ownerId) {
+        Ride newRide = rideService.createRide(createRideDTO, ownerId);
         return ResponseEntity.status(HttpStatus.CREATED).body(newRide);
     }
 
