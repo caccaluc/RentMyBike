@@ -37,5 +37,3 @@ public class Motorcycle {
     private String userId;
 
 }
-// wäre cool mit zusätzlichen Bildern zu arbeiten, wie kann ich das machen?
-// könnte ich zusätzliche Infos von einer API holen und diese in die Datenbank speichern? -> muss demnach auch als Attribut geführt sein.

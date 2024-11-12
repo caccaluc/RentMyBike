@@ -24,7 +24,7 @@ public class Ride {
     @NonNull
     private String RenterId;
     @NonNull
-    private Motorcycle motorcycleId;
+    private String motorcycleId;
     @NonNull
     private Adress pickupAdress;
     @NonNull

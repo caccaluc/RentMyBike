@@ -1,6 +1,7 @@
 package ch.zhaw.rentmybike.model.dtos;
 
 import java.time.LocalDateTime;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
 public class CreateRideDTO {
     
     private String motorcycleId; 
-    private String pickupAddressId; 
+    private String country;
+    private String city;
+    private int postalCode;
+    private String street;
+    private int streetNumber;
     private LocalDateTime startingTime; 
     private LocalDateTime endingTime; 
     private int price; 
 }
 
-// nonull nicht gesetzt da schon in Entity? kann ich das so machen?
-// ausserdem will ich die UserID vom eingeloggten haben und diese nicht im DTO setzen, wie mache ich das?
