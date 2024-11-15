@@ -20,11 +20,11 @@ public class UserService {
     public User createUser(CreateUserDTO createUserDTO) {
         //neue Adresse aus DTO-Daten erstellen
         Adress adress = new Adress();
-        adress.setCountry(createUserDTO.getCountry());
-        adress.setCity(createUserDTO.getCity());
-        adress.setPostalCode(createUserDTO.getPostalCode());
-        adress.setStreet(createUserDTO.getStreet());
-        adress.setStreetNumber(createUserDTO.getStreetNumber());
+        adress.setCountry(createUserDTO.getAdress().getCountry());
+        adress.setCity(createUserDTO.getAdress().getCity());
+        adress.setPostalCode(createUserDTO.getAdress().getPostalCode());
+        adress.setStreet(createUserDTO.getAdress().getStreet());
+        adress.setStreetNumber(createUserDTO.getAdress().getStreetNumber());
         
         // Neuen User erstellen und die Adresse-Id setzen
         User user = new User();

@@ -23,8 +23,9 @@ public class Ride {
     private String OwnerId;
     @NonNull
     private String RenterId;
+    // motorcycle als objekt speichern, bringt Vorteile bei Löschung
     @NonNull
-    private String motorcycleId;
+    private String motorcycleId; 
     @NonNull
     private Adress pickupAdress;
     @NonNull
