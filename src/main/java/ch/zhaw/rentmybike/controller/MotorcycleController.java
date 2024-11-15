@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.zhaw.rentmybike.model.dtos.CreateMotorcycleDTO;
 import ch.zhaw.rentmybike.model.entities.Motorcycle;
 import ch.zhaw.rentmybike.repository.MotorcycleRepository;
+import ch.zhaw.rentmybike.services.MotorcycleService;
 
 @RestController
 @RequestMapping("/api/motorcycles")
@@ -25,21 +26,13 @@ public class MotorcycleController {
     @Autowired
     private MotorcycleRepository motorcycleRepository;
 
+    @Autowired
+    private MotorcycleService motorcycleService;
+
     // Erstellen eines neuen Motorrads
     @PostMapping("/create")
     public ResponseEntity<Motorcycle> createMotorcycle(@RequestBody CreateMotorcycleDTO motorcycleDTO) {
-        Motorcycle motorcycle = new Motorcycle();
-        motorcycle.setBrand(motorcycleDTO.getBrand());
-        motorcycle.setModel(motorcycleDTO.getModel());
-        motorcycle.setYear(motorcycleDTO.getYear());
-        motorcycle.setColor(motorcycleDTO.getColor());
-        motorcycle.setLicensePlate(motorcycleDTO.getLicensePlate());
-        motorcycle.setValue(motorcycleDTO.getValue());
-        motorcycle.setPs(motorcycleDTO.getPs());
-        motorcycle.setKm(motorcycleDTO.getKm());
-        motorcycle.setUserId(motorcycleDTO.getUserId());
-
-        Motorcycle savedMotorcycle = motorcycleRepository.save(motorcycle);
+        Motorcycle savedMotorcycle = motorcycleService.createMotorcycle(motorcycleDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMotorcycle);
     }
 

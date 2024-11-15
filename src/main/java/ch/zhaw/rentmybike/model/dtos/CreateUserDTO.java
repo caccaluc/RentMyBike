@@ -1,7 +1,6 @@
 package ch.zhaw.rentmybike.model.dtos;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import ch.zhaw.rentmybike.model.entities.Adress;
 import lombok.Getter;
@@ -20,5 +19,4 @@ public class CreateUserDTO {
     private String phoneNumber;
     private Adress adress; 
     private LocalDate birthdate; 
-    private List<String> motorcycleIds;
 }
