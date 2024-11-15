@@ -17,7 +17,11 @@ public class CreateUserDTO {
     private String email; 
     private String licenseCode; 
     private String phoneNumber;
-    private String addressId;
+    private String country;
+    private String city;            // Adressdaten einzeln geführt, damit der User nicht eine ID selbst eintippen muss (um Redundanzen zu vermeiden)
+    private int postalCode;
+    private String street;
+    private int streetNumber;
     private LocalDate birthdate; 
     private List<String> motorcycleIds;
 }

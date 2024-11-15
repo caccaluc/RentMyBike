@@ -1,6 +1,7 @@
 package ch.zhaw.rentmybike.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import ch.zhaw.rentmybike.model.dtos.CreateUserDTO;
@@ -17,17 +18,25 @@ public class UserService {
 
     // Erstellung eines neuen Users
     public User createUser(CreateUserDTO createUserDTO) {
+        //neue Adresse aus DTO-Daten erstellen
+        Adress adress = new Adress();
+        adress.setCountry(createUserDTO.getCountry());
+        adress.setCity(createUserDTO.getCity());
+        adress.setPostalCode(createUserDTO.getPostalCode());
+        adress.setStreet(createUserDTO.getStreet());
+        adress.setStreetNumber(createUserDTO.getStreetNumber());
+        
+        // Neuen User erstellen und die Adresse-Id setzen
         User user = new User();
         user.setFirstName(createUserDTO.getFirstName());
         user.setLastName(createUserDTO.getLastName());
         user.setEmail(createUserDTO.getEmail());
         user.setPhoneNumber(createUserDTO.getPhoneNumber());
         user.setLicenceCode(createUserDTO.getLicenseCode());
-        Adress address = new Adress();
-        address.setId(createUserDTO.getAddressId());
-        user.setAdressID(address);
         user.setBirthdate(createUserDTO.getBirthdate());
         user.setState(UserState.NEW); 
+        user.setAdress(adress); // Adresse direkt im User setzen
+
         return userRepository.save(user);
     }
 
