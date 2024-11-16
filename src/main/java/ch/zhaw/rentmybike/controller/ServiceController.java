@@ -55,16 +55,6 @@ public class ServiceController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    // Ride beenden
-    @PutMapping("/rides/{id}/complete")
-    public ResponseEntity<Ride> completeRide(@PathVariable String id) {
-        Ride completedRide = rideService.completeRide(id);
-        if (completedRide != null) {
-            return ResponseEntity.ok(completedRide);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
     // Aktualisieren eines bestehenden Motorrads
     @PutMapping("/motorcycles/{id}")
     public ResponseEntity<Motorcycle> updateMotorcycle(@PathVariable String id, @RequestBody CreateMotorcycleDTO motorcycleDTO) {

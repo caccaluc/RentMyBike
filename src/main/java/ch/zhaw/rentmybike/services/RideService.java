@@ -1,7 +1,9 @@
 package ch.zhaw.rentmybike.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,18 +68,55 @@ public class RideService {
         return null;
     }
 
-    // Ride Status auf COMPLETED setzen
-    public Ride completeRide(String rideId) {
-        Optional<Ride> rideOptional = rideRepository.findById(rideId);
-        if (rideOptional.isPresent()) {
-            Ride ride = rideOptional.get();
-            ride.setStatus(RideStatus.COMPLETED);
-            ride.setEndingTime(LocalDateTime.now());
-            return rideRepository.save(ride);
+    // Filtern von verfügbaren Rides
+
+    public List<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime, Integer minPrice, Integer maxPrice) {
+        // Beginne mit allen verfügbaren Rides
+        List<Ride> availableRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
+
+        // Filtere nach Stadt, falls angegeben
+        if (city != null) {
+            List<Ride> cityFilteredRides = rideRepository.findAvailableRidesByCity(city);
+            availableRides = availableRides.stream()
+                    .filter(cityFilteredRides::contains)
+                    .collect(Collectors.toList());
         }
-        return null;
+
+        // Filtere nach Startzeit, falls angegeben
+        if (startTime != null) {
+            List<Ride> startTimeFilteredRides = rideRepository.findAvailableRidesByStartTime(startTime);
+            availableRides = availableRides.stream()
+                    .filter(startTimeFilteredRides::contains)
+                    .collect(Collectors.toList());
+        }
+
+        // Filtere nach Endzeit, falls angegeben
+        if (endTime != null) {
+            List<Ride> endTimeFilteredRides = rideRepository.findAvailableRidesByEndTime(endTime);
+            availableRides = availableRides.stream()
+                    .filter(endTimeFilteredRides::contains)
+                    .collect(Collectors.toList());
+        }
+
+        // Filtere nach Mindestpreis, falls angegeben
+        if (minPrice != null) {
+            List<Ride> minPriceFilteredRides = rideRepository.findAvailableRidesByMinPrice(minPrice);
+            availableRides = availableRides.stream()
+                    .filter(minPriceFilteredRides::contains)
+                    .collect(Collectors.toList());
+        }
+
+        // Filtere nach Höchstpreis, falls angegeben
+        if (maxPrice != null) {
+            List<Ride> maxPriceFilteredRides = rideRepository.findAvailableRidesByMaxPrice(maxPrice);
+            availableRides = availableRides.stream()
+                    .filter(maxPriceFilteredRides::contains)
+                    .collect(Collectors.toList());
+        }
+
+        return availableRides;
     }
-    
+       
     
 
 }
