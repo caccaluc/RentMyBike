@@ -66,4 +66,15 @@ public class MotorcycleService {
         }
         return null;
     }
+
+    //Motorrad löschen
+    public Optional<String> deleteMotorcycleById(String id) {
+        Optional<Motorcycle> motorcycle = motorcycleRepository.findById(id);
+
+        if (motorcycle.isPresent()) {
+            motorcycleRepository.delete(motorcycle.get());
+            return Optional.of("Motorcycle successfully deleted");
+        }
+        return Optional.empty(); // Motorrad nicht gefunden
+    }
 }

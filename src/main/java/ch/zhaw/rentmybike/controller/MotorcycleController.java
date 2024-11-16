@@ -50,14 +50,13 @@ public class MotorcycleController {
     }
 
 
-
     // Löschen eines Motorrads
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMotorcycle(@PathVariable String id) {
-        if (motorcycleRepository.existsById(id)) {
-            motorcycleRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<String> deleteMotorcycle(@PathVariable String id) {
+        Optional<String> result = motorcycleService.deleteMotorcycleById(id);
+
+        return result
+                .map(message -> ResponseEntity.status(HttpStatus.OK).body(message))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Motorcycle not found"));
     }
 }

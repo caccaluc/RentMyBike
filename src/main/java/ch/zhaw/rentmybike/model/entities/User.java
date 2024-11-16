@@ -47,8 +47,6 @@ public class User {
     public enum UserState {
         NEW, // New user, not yet activated
         ACTIVE, // Active and ready to use the system
-        UPDATED, // User information has been updated
-        INCOMPLETE, // User information is incomplete (e.g. missing email)
         DEACTIVATED // Deactivated 
     }
 }

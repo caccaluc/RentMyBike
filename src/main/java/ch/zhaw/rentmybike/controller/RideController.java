@@ -38,7 +38,7 @@ public class RideController {
     }
 
      // Alle Rides abrufen
-    @GetMapping
+    @GetMapping("/all")
     public List<Ride> getAllRides() {
         return rideRepository.findAll();
     }
@@ -49,12 +49,6 @@ public class RideController {
         Optional<Ride> ride = rideRepository.findById(id);
         return ride.map(ResponseEntity::ok)
                    .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-    // Rides eines bestimmten Vermieters abrufen
-    @GetMapping("/owner/{ownerId}")
-    public List<Ride> getRidesByOwnerId(@PathVariable String ownerId) {
-        return rideRepository.findByOwnerId(ownerId);
     }
 
     // Ride nach Status abrufen

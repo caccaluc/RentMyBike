@@ -20,10 +20,9 @@ public class Ride {
     @Id
     private String id;
     @NonNull
-    private String OwnerId;
+    private String ownerId;
     @NonNull
-    private String RenterId;
-    // motorcycle als objekt speichern, bringt Vorteile bei Löschung
+    private String renterId;
     @NonNull
     private String motorcycleId; 
     @NonNull

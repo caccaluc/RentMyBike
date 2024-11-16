@@ -1,10 +1,14 @@
 package ch.zhaw.rentmybike.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
 import ch.zhaw.rentmybike.model.dtos.CreateUserDTO;
+import ch.zhaw.rentmybike.model.dtos.UserActivateDTO;
 import ch.zhaw.rentmybike.model.entities.Adress;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.model.entities.User.UserState;
@@ -41,15 +45,33 @@ public class UserService {
     }
 
 
-    // User verifizieren
-    public User verifyUser(String userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if (user.getState() == UserState.NEW) {
-            user.setState(UserState.ACTIVE);
-            return userRepository.save(user);
+    // User aktivieren / auf ACTIVE setzen
+    public Optional<User> activateUser(UserActivateDTO activateRequest) {
+        Optional<User> userOptional = userRepository.findById(activateRequest.getUserId());
+    
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            
+            if (user.getState() == UserState.NEW) {
+                user.setState(UserState.ACTIVE);
+                userRepository.save(user);
+                return Optional.of(user);
+            } else {
+                throw new IllegalStateException("User is not in a state that allows activation.");
+            }
         }
-        throw new IllegalStateException("User is not in a verifiable state");
+    
+            return Optional.empty();
+        }
+
+    // alle User ausgeben
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
+    // Benutzer anhand der ID abrufen
+    public User getUserById(String userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

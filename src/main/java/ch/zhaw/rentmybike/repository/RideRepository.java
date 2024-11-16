@@ -8,9 +8,6 @@ import ch.zhaw.rentmybike.model.entities.Ride.RideStatus;
 
 public interface RideRepository extends MongoRepository<Ride, String> {
     
-    // Abfrage nach Besitzer-ID
-    List<Ride> findByOwnerId(String ownerId);
-
     // Abfrage nach Status
     List<Ride> findByStatus(RideStatus status);
 
