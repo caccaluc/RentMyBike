@@ -20,6 +20,7 @@ public class MotorcycleService {
     @Autowired
     private UserRepository userRepository;
 
+    // Motorrad hinzufügen
     public Motorcycle createMotorcycle(CreateMotorcycleDTO motorcycleDTO) {
         // Neues Motorrad erstellen
         Motorcycle motorcycle = new Motorcycle();
@@ -45,5 +46,24 @@ public class MotorcycleService {
         }
 
         return savedMotorcycle;
+    }
+
+    // Motorrad aktualisieren
+    public Motorcycle updateMotorcycle(String motorcycleId, CreateMotorcycleDTO motorcycleDTO) {
+        Optional<Motorcycle> existingMotorcycle = motorcycleRepository.findById(motorcycleId);
+        if (existingMotorcycle.isPresent()) {
+            Motorcycle motorcycle = existingMotorcycle.get();
+            motorcycle.setBrand(motorcycleDTO.getBrand());
+            motorcycle.setModel(motorcycleDTO.getModel());
+            motorcycle.setYear(motorcycleDTO.getYear());
+            motorcycle.setColor(motorcycleDTO.getColor());
+            motorcycle.setLicensePlate(motorcycleDTO.getLicensePlate());
+            motorcycle.setValue(motorcycleDTO.getValue());
+            motorcycle.setPs(motorcycleDTO.getPs());
+            motorcycle.setKm(motorcycleDTO.getKm());
+            motorcycle.setUserId(motorcycleDTO.getUserId());
+            return motorcycleRepository.save(motorcycle);
+        }
+        return null;
     }
 }

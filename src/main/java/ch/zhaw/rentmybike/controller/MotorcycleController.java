@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,28 +50,6 @@ public class MotorcycleController {
     }
 
 
-    
-    // Aktualisieren eines bestehenden Motorrads
-    @PutMapping("/{id}")
-    public ResponseEntity<Motorcycle> updateMotorcycle(@PathVariable String id, @RequestBody CreateMotorcycleDTO motorcycleDTO) {
-        Optional<Motorcycle> existingMotorcycle = motorcycleRepository.findById(id);
-        if (existingMotorcycle.isPresent()) {
-            Motorcycle motorcycle = existingMotorcycle.get();
-            motorcycle.setBrand(motorcycleDTO.getBrand());
-            motorcycle.setModel(motorcycleDTO.getModel());
-            motorcycle.setYear(motorcycleDTO.getYear());
-            motorcycle.setColor(motorcycleDTO.getColor());
-            motorcycle.setLicensePlate(motorcycleDTO.getLicensePlate());
-            motorcycle.setValue(motorcycleDTO.getValue());
-            motorcycle.setPs(motorcycleDTO.getPs());
-            motorcycle.setKm(motorcycleDTO.getKm());
-            motorcycle.setUserId(motorcycleDTO.getUserId());
-
-            Motorcycle updatedMotorcycle = motorcycleRepository.save(motorcycle);
-            return ResponseEntity.ok(updatedMotorcycle);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
 
     // Löschen eines Motorrads
     @DeleteMapping("/{id}")

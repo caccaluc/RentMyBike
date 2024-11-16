@@ -1,6 +1,5 @@
 package ch.zhaw.rentmybike.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,31 +63,6 @@ public class RideController {
         return rideRepository.findByStatus(status);
     }
 
-    // Ride-Status aktualisieren
-    @PutMapping("/{id}/status")
-    public ResponseEntity<Ride> updateRideStatus(@PathVariable String id, @RequestParam RideStatus status) {
-        Optional<Ride> rideOptional = rideRepository.findById(id);
-        if (rideOptional.isPresent()) {
-            Ride ride = rideOptional.get();
-            ride.setStatus(status);
-            rideRepository.save(ride);
-            return ResponseEntity.ok(ride);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
-    // Ride beenden (Status auf COMPLETED setzen)
-    @PutMapping("/{id}/complete")
-    public ResponseEntity<Ride> completeRide(@PathVariable String id) {
-        Optional<Ride> rideOptional = rideRepository.findById(id);
-        if (rideOptional.isPresent()) {
-            Ride ride = rideOptional.get();
-            ride.setStatus(RideStatus.COMPLETED);
-            ride.setEndingTime(LocalDateTime.now());
-            rideRepository.save(ride);
-            return ResponseEntity.ok(ride);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-
+    
+    
 }
