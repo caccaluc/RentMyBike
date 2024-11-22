@@ -2,7 +2,7 @@
     import axios from "axios";
     import { onMount } from "svelte";
   
-    const api_root = "https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mock.pstmn.io";
+    const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
   
     let rides = [];
     let ride = {

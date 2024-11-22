@@ -72,49 +72,49 @@ public class RideService {
 
     public List<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime, Integer minPrice, Integer maxPrice) {
         // Beginne mit allen verfügbaren Rides
-        List<Ride> availableRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
+        List<Ride> filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
 
-        // Filtere nach Stadt, falls angegeben
-        if (city != null) {
-            List<Ride> cityFilteredRides = rideRepository.findAvailableRidesByCity(city);
-            availableRides = availableRides.stream()
-                    .filter(cityFilteredRides::contains)
-                    .collect(Collectors.toList());
+        // Falls Stadt gegeben, filtern wir direkt nach Stadt in der Datenbank
+        if (city != null && !city.isEmpty()) {
+            filteredRides = rideRepository.findAvailableRidesByCity(city);
+        } else {
+            // Starte mit allen verfügbaren Rides, falls Stadt nicht spezifiziert ist
+            filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
         }
 
-        // Filtere nach Startzeit, falls angegeben
+        // Falls Startzeit angegeben, weiter filtern nach Startzeit
         if (startTime != null) {
-            List<Ride> startTimeFilteredRides = rideRepository.findAvailableRidesByStartTime(startTime);
-            availableRides = availableRides.stream()
-                    .filter(startTimeFilteredRides::contains)
+            filteredRides = rideRepository.findAvailableRidesByStartTime(startTime)
+                    .stream()
+                    .filter(filteredRides::contains)
                     .collect(Collectors.toList());
         }
 
-        // Filtere nach Endzeit, falls angegeben
+        // Falls Endzeit angegeben, weiter filtern nach Endzeit
         if (endTime != null) {
-            List<Ride> endTimeFilteredRides = rideRepository.findAvailableRidesByEndTime(endTime);
-            availableRides = availableRides.stream()
-                    .filter(endTimeFilteredRides::contains)
+            filteredRides = rideRepository.findAvailableRidesByEndTime(endTime)
+                    .stream()
+                    .filter(filteredRides::contains)
                     .collect(Collectors.toList());
         }
 
-        // Filtere nach Mindestpreis, falls angegeben
+        // Falls Mindestpreis gegeben, weiter filtern nach Mindestpreis
         if (minPrice != null) {
-            List<Ride> minPriceFilteredRides = rideRepository.findAvailableRidesByMinPrice(minPrice);
-            availableRides = availableRides.stream()
-                    .filter(minPriceFilteredRides::contains)
+            filteredRides = rideRepository.findAvailableRidesByMinPrice(minPrice)
+                    .stream()
+                    .filter(filteredRides::contains)
                     .collect(Collectors.toList());
         }
 
-        // Filtere nach Höchstpreis, falls angegeben
+        // Falls Höchstpreis gegeben, weiter filtern nach Höchstpreis
         if (maxPrice != null) {
-            List<Ride> maxPriceFilteredRides = rideRepository.findAvailableRidesByMaxPrice(maxPrice);
-            availableRides = availableRides.stream()
-                    .filter(maxPriceFilteredRides::contains)
+            filteredRides = rideRepository.findAvailableRidesByMaxPrice(maxPrice)
+                    .stream()
+                    .filter(filteredRides::contains)
                     .collect(Collectors.toList());
         }
 
-        return availableRides;
+        return filteredRides;
     }
        
     

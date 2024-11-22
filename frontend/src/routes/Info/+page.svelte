@@ -1,13 +1,14 @@
 <body>
 
-  <div class="container">
-      <div class="header">
-          <img src="/images/Logo_RMB.png" alt="RentMyBike Logo">
-          <h1>Willkommen bei RentMyBike!</h1>
+  <div class="hero">
+      <div class="hero-content">
+        <h1>Über uns</h1>          
       </div>
+      <img src="/images/Logo_RMB.png" alt="RentMyBike Logo" class="logo">
+    </div>
 
       <div class="content">
-          <h2>Über uns</h2>
+          
           <p>
               Bei RentMyBike glauben wir daran, dass das Motorradfahren für jeden zugänglich und flexibel sein sollte. Mit unserer Plattform bieten wir Motorradfahrern die Möglichkeit, flexibel und sorgenfrei ein Motorrad zu mieten oder das eigene Motorrad mit anderen zu teilen. Ob Abenteuer, Freiheit oder einfach nur eine praktische Lösung für einen Wochenendtrip – RentMyBike bringt Menschen zusammen und gibt ihnen die Freiheit, die sie suchen.
           </p>
@@ -24,9 +25,9 @@
           </p>
           <h2>Unsere Werte</h2>
           <p>
-              - **Flexibilität und Freiheit**: Motorräder sollen verfügbar sein, wenn und wo du sie brauchst.<br>
-              - **Vertrauen und Sicherheit**: Die Sicherheit der Nutzer steht bei uns an erster Stelle. Wir arbeiten eng mit Versicherungsunternehmen zusammen, um ein umfassendes Versicherungspaket zu bieten.<br>
-              - **Nachhaltigkeit und Ressourcenschonung**: Durch die gemeinsame Nutzung reduzieren wir unnötige Käufe und fördern die Nutzung vorhandener Ressourcen.
+              <b>- Flexibilität und Freiheit:</b> Motorräder sollen verfügbar sein, wenn und wo du sie brauchst.<br>
+              <b>- Vertrauen und Sicherheit:</b> Die Sicherheit der Nutzer steht bei uns an erster Stelle. Wir arbeiten eng mit Versicherungsunternehmen zusammen, um ein umfassendes Versicherungspaket zu bieten.<br>
+              <b>- Nachhaltigkeit und Ressourcenschonung:</b> Durch die gemeinsame Nutzung reduzieren wir unnötige Käufe und fördern die Nutzung vorhandener Ressourcen.
           </p>
 
           <h2>Kontakt</h2>
@@ -35,8 +36,8 @@
               Musterstraße 123<br>
               12345 Musterstadt<br>
               Tel.: 0123 456789<br>
-              E-Mail:renymybike@gmail.com
+              E-Mail:rentmybike@gmail.com
       </div>
-  </div>
+  
 
 </body>

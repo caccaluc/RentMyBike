@@ -18,7 +18,7 @@
     <div class="card">
       <h2>Motorrad suchen</h2>
       <p>Suche nach einem Motorrad, welches für eine Vermietung zu Verfügung steht.</p>
-      <button class="primary-btn">Motorrad suchen</button>
+      <a class="primary-btn" href="/rides/ridesOverview">Motorrad suchen</a>
     </div>
     <div class="card">
       <h2>Anmelden</h2>
