@@ -19,10 +19,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/rides">Motorrad suchen</a>
+          <a class="nav-link" aria-current="page" href="/rides/ridesOverview">Motorrad suchen</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/kontakt">Kontakt</a>
+          <a class="nav-link" href="/Info">Über uns</a>
         </li>
       </ul>
     </div>

@@ -41,7 +41,7 @@
 </script>
 
 
-<h1>All Jobs</h1>
+<h1>All Rides</h1>
   <table class="table">
     <thead>
       <tr>
@@ -57,8 +57,8 @@
       {#each rides as ride}
         <tr>
           <td>{ride.motorcycleId}</td> <!-- hier will ich nicht die ID anzeigen, sondern Infos vom Motorrad -->
-          <td>{ride.country}</td> <!-- Das Land ist im Objekt pickupAdress verschachtelt, komme ich so trotzdem ran? -->
-          <td>{ride.city}</td>
+          <td>{ride.pickupAdress.country}</td> <!-- Das Land ist im Objekt pickupAdress verschachtelt, komme ich so trotzdem ran? -->
+          <td>{ride.pickupAdress.city}</td>
           <td>{ride.startingTime}</td>
           <td>{ride.endingTime}</td>
           <td>{ride.price}</td>

@@ -2,7 +2,7 @@
     import axios from "axios";
     import { onMount } from "svelte";
   
-    const api_root = "https://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.mock.pstmn.io";
+    const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
   
     let rides = [];
     let ride = {
@@ -152,29 +152,4 @@
     >
   </form>
   
-  <h1>All Jobs</h1>
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">MotorradId</th>
-        <th scope="col">Land</th>
-        <th scope="col">Stadt</th>
-        <th scope="col">Start der Vermietung</th>
-        <th scope="col">Ende der Vermietung</th>
-        <th scope="col">Preis</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each rides as ride}
-        <tr>
-          <td>{ride.motorcycleId}</td> <!-- hier will ich nicht die ID anzeigen, sondern Infos vom Motorrad -->
-          <td>{ride.country}</td> <!-- Das Land ist im Objekt pickupAdress verschachtelt, komme ich so trotzdem ran? -->
-          <td>{ride.city}</td>
-          <td>{ride.startingTime}</td>
-          <td>{ride.endingTime}</td>
-          <td>{ride.price}</td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
   
