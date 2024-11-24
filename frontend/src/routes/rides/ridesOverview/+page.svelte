@@ -43,7 +43,7 @@
 </script>
 
 
-<h1>All Rides</h1>
+<h1>Alle verfügbaren Vermietungen</h1>
   <table class="table">
     <thead>
       <tr>
@@ -69,3 +69,10 @@
     </tbody>
   </table>
   
+  <section class="cards">
+    <div class="card">
+      <h2>Vermietung hinzufügen</h2>
+      <p>Füge eine Vermietung hinzu und profitiere von unserem Service.</p>
+      <a class="primary-btn" href="/rides/ridesCreate">Vermietung hinzufügen</a>
+    </div>
+  </section>

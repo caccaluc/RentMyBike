@@ -2,6 +2,9 @@
 h1 {
     color: rgb(2, 118, 226);
 }
+h3 {
+    color: rgb(2, 118, 226);
+}
 
 .cards {
     display: flex;

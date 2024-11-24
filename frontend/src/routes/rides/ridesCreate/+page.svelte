@@ -62,7 +62,7 @@
   }
 </script>
 
-<h1 class="mt-3">Create Ride</h1>
+<h1 class="mt-3">Erstelle eine Vermietung</h1>
 <form class="mb-5">
   <div class="row mb-3">
     <div class="col">
@@ -148,6 +148,7 @@
         type="number"
       />
     </div>
+    <br>
     <button type="button" class="btn btn-primary" on:click={createRide}
       >Hinzufügen</button
     >
