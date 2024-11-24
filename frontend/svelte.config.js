@@ -12,11 +12,17 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-			pages: '../src/main/resources/static'
+			pages: '../src/main/resources/static',
+			fallback: 'index.html' // Fallback-Option für alle dynamischen Routen (SPA-Modus)
 		}),
+		
 		paths: {
 			relative: false,
 		},
+		prerender: {
+			// Da du eine Single-Page Application baust, schalte die strikte Prerender-Prüfung ab.
+			entries: [] // Leere entries sorgt dafür, dass keine Routen explizit vorgerendert werden müssen
+		}
 	}
 };
 

@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/rides/ridesOverview">Motorrad suchen</a>
+          <a class="nav-link" aria-current="page" href="/rides/ridesOverview">Vermietung finden</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/Info">Über uns</a>
