@@ -62,7 +62,7 @@ public class RideController {
 
 
     // Alle verfügbaren Rides abrufen
-    @GetMapping("status/available")
+    @GetMapping("/status/available")
     public ResponseEntity<List<Ride>> getAvailableRides(
             @RequestParam(required = false) String city,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,

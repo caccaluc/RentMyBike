@@ -13,7 +13,10 @@ const config = {
 	kit: {
 		adapter: adapter({
 			pages: '../src/main/resources/static'
-		})
+		}),
+		paths: {
+			relative: false,
+		},
 	}
 };
 

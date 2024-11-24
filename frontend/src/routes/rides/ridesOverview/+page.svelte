@@ -1,8 +1,10 @@
 <script>
+    import { page } from "$app/stores";
     import axios from "axios";
     import { onMount } from "svelte";
   
-    const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
+   // const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
+   const api_root = $page.url.origin;
   
     let rides = [];
     let ride = {
@@ -17,7 +19,7 @@
         price: null,
       
     };
-  
+    
     onMount(() => {
       getRides();
     });
@@ -25,7 +27,7 @@
     function getRides() {
       var config = {
         method: "get",
-        url: api_root + "/api/rides/status/AVAILABLE",
+        url: api_root + "/api/rides/status/available",
         headers: {},
       };
   
