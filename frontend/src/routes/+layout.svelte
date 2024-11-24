@@ -24,6 +24,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/Info">Über uns</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/user/all">Benutzerverwaltung</a>
+        </li>
       </ul>
     </div>
   </div>

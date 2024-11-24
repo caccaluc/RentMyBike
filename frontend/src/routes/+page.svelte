@@ -18,12 +18,12 @@
     <div class="card">
       <h2>Motorrad suchen</h2>
       <p>Suche nach einem Motorrad, welches für eine Vermietung zu Verfügung steht.</p>
-      <a class="primary-btn" href="/rides/ridesOverview">Motorrad suchen</a>
+      <a class="primary-btn" href="/rides/ridesOverview">Vermietung finden</a>
     </div>
     <div class="card">
       <h2>Anmelden</h2>
       <p>Melde dich jetzt an und überzeuge dich von den Vorteilen von RentMyBike. Profitiere von deinem unbenutzten Motorrad.</p>
-      <button class="secondary-btn">Registrieren</button>
+      <a class="secondary-btn" href="/user/create">Registrieren</a>
       <button class="primary-btn">Anmelden</button>
     </div>
   </section>
