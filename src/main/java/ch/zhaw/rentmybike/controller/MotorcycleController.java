@@ -34,7 +34,12 @@ public class MotorcycleController {
         Motorcycle savedMotorcycle = motorcycleService.createMotorcycle(motorcycleDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMotorcycle);
     }
-
+    // Abrufen aller Motorräder
+    @GetMapping
+    public ResponseEntity<List<Motorcycle>> getAllMotorcycles() {
+        List<Motorcycle> motorcycles = motorcycleRepository.findAll();
+        return ResponseEntity.ok(motorcycles);
+    }
     // Abrufen eines Motorrads basierend auf der ID
     @GetMapping("/{id}")
     public ResponseEntity<Motorcycle> getMotorcycleById(@PathVariable String id) {
