@@ -58,11 +58,11 @@
     <tbody>
       {#each rides as ride}
         <tr>
-          <!--<td>
-            <a href="/motorcycle/details/{ride.motorcycleId}">
+          <td>
+            <a href="/motorcycle/{ride.motorcycleId}">
               Motorrad Details ansehen
             </a>
-          </td>-->
+          </td>
           <td>{ride.motorcycleId}</td>
           <td>{ride.pickupAdress.country}</td> <!-- Das Land ist im Objekt pickupAdress verschachtelt, komme ich so trotzdem ran? -->
           <td>{ride.pickupAdress.city}</td>

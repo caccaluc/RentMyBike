@@ -3,7 +3,7 @@
   import axios from "axios";
   import { onMount } from "svelte";
 
-  // const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
+
   const api_root = $page.url.origin;
 
   let rides = [];
@@ -60,6 +60,47 @@
         console.log(error);
       });
   }
+
+  /** Definition für Motorräder */
+ 
+
+
+  let motorcycles = [];
+    let motorcycle = {
+        brand: null,
+        model: null, 
+        year: null,
+        color: null, 
+        licenceplate: null, 
+        value: null,
+        ps: null,
+        km: null,
+        UserId: null,
+      
+    };
+    
+    onMount(() => {
+      getMotorcycles();
+    });
+  
+    function getMotorcycles() {
+      var config = {
+        method: "get",
+        url: api_root + "/api/motorcycles",
+        headers: {},
+      };
+  
+      axios(config)
+        .then(function (response) {
+          motorcycles= response.data;
+        })
+        .catch(function (error) {
+          alert("Could not get motorcycles");
+          console.log(error);
+        });
+    }
+
+
 </script>
 
 <h1 class="mt-3">Erstelle eine Vermietung</h1>
@@ -154,3 +195,44 @@
     >
   </div>
 </form>
+
+<h1>Alle Motorräder</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Besitzer (User)</th>
+      <th scope="col">Marke</th>
+      <th scope="col">Modell</th>
+      <th scope="col">Jahr</th>
+      <th scope="col">PS</th>
+      <th scope="col">Kilometerstand</th>
+      <th scope="col">Farbe</th>
+      <th scope="col">Wert</th>
+    </tr>
+  </thead>
+  <tbody>
+    {#each motorcycles as motorcycle}
+      <tr>
+        <td>{motorcycle.userId}</td>
+        <td>{motorcycle.brand}</td>
+        <td>{motorcycle.model}</td>
+        <td>{motorcycle.year}</td>
+        <td>{motorcycle.ps}</td>
+        <td>{motorcycle.km}</td>
+        <td>{motorcycle.color}</td>
+        <td>{motorcycle.value}</td>
+      </tr>
+    {/each}
+  </tbody>
+</table>
+
+
+  
+  <section class="cards">
+    <div class="card">
+      <h2>Motorrad hinzufügen</h2>
+      <p>Füge ein Mottorrad hinzu, um eine Vermietung zu erstellen.</p>
+      <a class="primary-btn" href="/rides/ridesCreate">Motorrad hinzufügen</a>
+    </div>
+  </section>
