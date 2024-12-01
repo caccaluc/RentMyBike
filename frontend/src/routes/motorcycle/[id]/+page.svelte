@@ -4,8 +4,12 @@
   import axios from "axios";
 
   // Die ID wird aus der URL extrahiert
-  export let params;
-  console.log('Aktuelle params:', params);
+ 
+  var url = window.location.href;
+  var parts = url.split("/");
+  var id = parts.pop();
+  console.log(id);
+ 
 
   //Variables
   let motorcycle = {
@@ -21,14 +25,9 @@
     userId: null,
   };
 
-  let motorcycle_id = null;
+  let motorcycle_id = id;
 
-  // Reactive Statements
-  $: if (params && params.id) {
-    motorcycle_id = params.id;
-    console.log("API-Wurzel:", api_root);
-    console.log("Motorrad ID:", motorcycle_id);
-  }
+  
 
   const api_root = window.location.origin;
 

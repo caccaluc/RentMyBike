@@ -48,6 +48,7 @@
     <thead>
       <tr>
         <th scope="col">MotorradId</th>
+        <th scope="col">Motorrad Details</th>
         <th scope="col">Land</th>
         <th scope="col">Stadt</th>
         <th scope="col">Start der Vermietung</th>
@@ -58,12 +59,13 @@
     <tbody>
       {#each rides as ride}
         <tr>
+          
+          <td>{ride.motorcycleId}</td>
           <td>
             <a href="/motorcycle/{ride.motorcycleId}">
-              Motorrad Details ansehen
+              Details ansehen
             </a>
           </td>
-          <td>{ride.motorcycleId}</td>
           <td>{ride.pickupAdress.country}</td> <!-- Das Land ist im Objekt pickupAdress verschachtelt, komme ich so trotzdem ran? -->
           <td>{ride.pickupAdress.city}</td>
           <td>{ride.startingTime}</td>
