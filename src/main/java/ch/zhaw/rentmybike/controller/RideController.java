@@ -35,9 +35,9 @@ public class RideController {
 
 
     // Erstellen eines neuen Ride
-   @PostMapping("/create")
-    public ResponseEntity<Ride> createRide(@RequestBody CreateRideDTO createRideDTO, @RequestParam String ownerId) {
-        Ride newRide = rideService.createRide(createRideDTO, ownerId);
+    @PostMapping("/create")
+    public ResponseEntity<Ride> createRide(@RequestBody CreateRideDTO createRideDTO) {
+        Ride newRide = rideService.createRide(createRideDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newRide);
     }
 

@@ -13,27 +13,37 @@ import ch.zhaw.rentmybike.model.entities.Ride;
 import ch.zhaw.rentmybike.model.entities.Ride.RideStatus;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.model.entities.User.UserState;
+import ch.zhaw.rentmybike.repository.MotorcycleRepository;
 import ch.zhaw.rentmybike.repository.RideRepository;
 import ch.zhaw.rentmybike.repository.UserRepository;
 import ch.zhaw.rentmybike.model.entities.Adress;
+import ch.zhaw.rentmybike.model.entities.Motorcycle;
 
 @Service
 public class RideService {
+
+    @Autowired
+    private MotorcycleRepository motorcycleRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RideRepository rideRepository;
-    
-    // Ride erstellen
-    public Ride createRide(CreateRideDTO createRideDTO, String ownerId) {
-        // Prüfen, ob der User aktiv ist
-        User owner = userRepository.findById(ownerId)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (owner.getState() != UserState.ACTIVE) {
-        throw new IllegalStateException("Ride creation is only allowed for active users.");
+    // Ride erstellen
+    public Ride createRide(CreateRideDTO createRideDTO) {
+        // Motorrad anhand der ID abrufen
+        Motorcycle motorcycle = motorcycleRepository.findById(createRideDTO.getMotorcycleId())
+                .orElseThrow(() -> new IllegalArgumentException("Motorcycle not found"));
+
+        // User, der Besitzer des Motorrads ist, abrufen
+        User user = userRepository.findById(motorcycle.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Owner not found"));
+
+        // Prüfen, ob der User aktiv ist
+        if (user.getState() != UserState.ACTIVE) {
+            throw new IllegalStateException("Ride creation is only allowed for active users.");
         }
 
         // Address-Objekt manuell aus DTO-Daten erstellen
@@ -51,7 +61,7 @@ public class RideService {
         ride.setStartingTime(createRideDTO.getStartingTime());
         ride.setEndingTime(createRideDTO.getEndingTime());
         ride.setPrice(createRideDTO.getPrice());
-        ride.setOwnerId(ownerId);
+        ride.setOwnerId(motorcycle.getUserId()); // Setze die OwnerId aus dem Motorcycle-Objekt
         ride.setStatus(RideStatus.AVAILABLE);
 
         return rideRepository.save(ride);
@@ -70,7 +80,8 @@ public class RideService {
 
     // Filtern von verfügbaren Rides
 
-    public List<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime, Integer minPrice, Integer maxPrice) {
+    public List<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime,
+            Integer minPrice, Integer maxPrice) {
         // Beginne mit allen verfügbaren Rides
         List<Ride> filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
 
@@ -116,7 +127,5 @@ public class RideService {
 
         return filteredRides;
     }
-       
-    
 
 }
