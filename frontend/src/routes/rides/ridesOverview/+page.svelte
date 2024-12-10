@@ -2,6 +2,7 @@
     import { page } from "$app/stores";
     import axios from "axios";
     import { onMount } from "svelte";
+    import { jwt_token } from "../../../store";
   
    // const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
    const api_root = $page.url.origin;
@@ -28,7 +29,7 @@
       var config = {
         method: "get",
         url: api_root + "/api/rides/status/available",
-        headers: {},
+        headers: {Authorization: "Bearer "+$jwt_token},
       };
   
       axios(config)
