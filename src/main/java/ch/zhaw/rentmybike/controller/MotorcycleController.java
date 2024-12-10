@@ -58,10 +58,12 @@ public class MotorcycleController {
     // Löschen eines Motorrads
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMotorcycle(@PathVariable String id) {
-        Optional<String> result = motorcycleService.deleteMotorcycleById(id);
-
-        return result
-                .map(message -> ResponseEntity.status(HttpStatus.OK).body(message))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Motorcycle not found"));
+        Optional<String> motorcycle = motorcycleService.deleteMotorcycleById(id);
+        if (motorcycle.isPresent()) {
+            motorcycleRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }
