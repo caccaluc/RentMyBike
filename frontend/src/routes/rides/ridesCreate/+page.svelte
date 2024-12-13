@@ -27,7 +27,7 @@
   function getRides() {
     var config = {
       method: "get",
-      url: api_root + "/api/rides/status/AVAILABLE",
+      url: api_root + "/api/rides/status/available",
       headers: {Authorization: "Bearer "+$jwt_token},
     };
 
@@ -235,6 +235,6 @@
     <div class="card">
       <h2>Motorrad hinzufügen</h2>
       <p>Füge ein Mottorrad hinzu, um eine Vermietung zu erstellen.</p>
-      <a class="primary-btn" href="/rides/ridesCreate">Motorrad hinzufügen</a>
+      <a class="primary-btn" href="/motorcycle/createMotorcycle">Motorrad hinzufügen</a>
     </div>
   </section>

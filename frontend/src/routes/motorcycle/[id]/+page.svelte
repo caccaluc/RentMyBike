@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import axios from "axios";
+  import { jwt_token } from "../../../store";
 
   // Die ID wird aus der URL extrahiert
  
@@ -47,8 +48,7 @@
     var config = {
       method: "get",
       url: `${api_root}/api/motorcycles/${motorcycle_id}`,
-
-      headers: {},
+      headers: {Authorization: "Bearer "+$jwt_token},
     };
 
     return axios(config) // Stelle sicher, dass die Promise zurückgegeben wird
