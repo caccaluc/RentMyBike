@@ -20,13 +20,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {#if $isAuthenticated}
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="/rides/ridesOverview"
-              >Vermietung finden</a
-            >
+            <a class="nav-link" aria-current="page" href="/rides/ridesOverview">Vermietung finden</a>
           </li>
-        {/if}
         {#if $isAuthenticated}
           <li class="nav-item">
             <a class="nav-link" href="/rides/myRides">Meine Vermietungen</a>
@@ -35,9 +31,11 @@
         <li class="nav-item">
           <a class="nav-link" href="/Info">Über uns</a>
         </li>
+        {#if $isAuthenticated && $user.user_roles.includes("admin") && $user.user_roles}
         <li class="nav-item">
           <a class="nav-link" href="/user/all">Benutzerverwaltung</a>
         </li>
+        {/if}
         {#if $isAuthenticated}
           <li class="nav-item">
             <a class="nav-link" href="/account">Account</a>

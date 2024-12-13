@@ -2,7 +2,8 @@
     import axios from "axios";
     import { page } from "$app/stores";
     import { onMount } from "svelte";
-  
+    import { jwt_token } from "../../../store";
+    
     const api_root = $page.url.origin;
   
     let users = [];
@@ -31,7 +32,7 @@
       var config = {
         method: "get",
         url: api_root + "/api/users/all",
-        headers: {},
+        headers: {Authorization: "Bearer "+$jwt_token},
       };
   
       axios(config)
