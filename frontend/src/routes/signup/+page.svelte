@@ -24,12 +24,12 @@
   }
 </script>
 
-<h1>Sign up</h1>
+<h1>Registrieren</h1>
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card">
-        <div class="card-header">Sign up</div>
+        <div class="card-header">Registrieren</div>
         <div class="card-body">
           <form
             on:submit|preventDefault={signup}
@@ -48,11 +48,11 @@
                 required
               />
               <div class="invalid-feedback">
-                Please provide an e-mail address.
+                Bitte gib deine E-Mail Adresse an.
               </div>
             </div>
             <div class="mb-3">
-              <label for="first-name" class="form-label">First Name</label>
+              <label for="first-name" class="form-label">Vorname</label>
               <input
                 bind:value={firstName}
                 type="text"
@@ -62,7 +62,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="last-name" class="form-label">Last Name</label>
+              <label for="last-name" class="form-label">Nachname</label>
               <input
                 bind:value={lastName}
                 type="text"
@@ -72,7 +72,7 @@
               />
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
+              <label for="password" class="form-label">Passwort</label>
               <input
                 bind:value={password}
                 type="password"
@@ -81,11 +81,11 @@
                 name="password"
                 required
               />
-              <div class="invalid-feedback">Please choose a password.</div>
+              <div class="invalid-feedback">Wähle dein Passwort.</div>
             </div>
             <div class="row align-items-end">
               <div class="col">
-                <button type="submit" class="btn btn-primary">Sign up</button>
+                <button type="submit" class="btn btn-primary">Registrieren</button>
               </div>
               <div class="col-auto">
                 <a href="/">Log in</a>

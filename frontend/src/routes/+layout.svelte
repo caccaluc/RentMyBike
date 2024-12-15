@@ -48,6 +48,12 @@
           <button type="button" class="btn btn-primary" on:click={auth.logout}
             >Log Out</button>
         {/if}
+        {#if !$isAuthenticated}
+          <a href="/login" class="btn btn-primary">Anmelden</a>
+        {/if}
+        {#if !$isAuthenticated}
+          <a href="/signup" class="btn btn-secondary ms-2">Registrieren</a>
+        {/if}
       </div>
     </div>
   </div>
