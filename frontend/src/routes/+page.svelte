@@ -38,6 +38,16 @@
             <a class="primary-btn" href="/login">Anmelden</a>
         </div>
     {/if}
+    {#if $isAuthenticated}
+        <div class="card">
+            <h2>Profil vervollständigen</h2>
+            <p>
+                Bitte vervollständige dein Profil, um alle Funktionen von RentMyBike nutzen zu können.
+            </p>
+            <a class="primary-btn" href="/user/create">Profil vervollständigen</a>
+        </div>
+    {/if}
+
 </section>
 
 <style>
