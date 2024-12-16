@@ -5,5 +5,5 @@ import ch.zhaw.rentmybike.model.entities.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
     
-    
+    User findFirstByEmail(String email);
 }

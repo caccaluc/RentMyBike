@@ -1,11 +1,11 @@
 package ch.zhaw.rentmybike.controller;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,29 +64,28 @@ public class RideController {
 
     // Alle verfügbaren Rides abrufen
     @GetMapping("/status/available")
-    public ResponseEntity<List<Ride>> getAvailableRides(
+    public ResponseEntity<Page<Ride>> getAvailableRides(
             @RequestParam(required = false) String city,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endTime,
             @RequestParam(required = false) Integer minPrice,
-            @RequestParam(required = false) Integer maxPrice) {
+            @RequestParam(required = false) Integer maxPrice,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "9") Integer pageSize) {
     
-         // Manuelle Validierung
-    if (minPrice != null && minPrice < 0) {
-        return ResponseEntity.badRequest()
-                .header("Error-Message", "Min-Preis darf nicht negativ sein")
-                .body(Collections.emptyList());
-    }
-    if (maxPrice != null && maxPrice < 0) {
-        return ResponseEntity.badRequest()
-                .header("Error-Message", "Max-Preis darf nicht negativ sein")
-                .body(Collections.emptyList());
-    }
     
         // Rufe den Service auf, um die gefilterten Rides zu erhalten
-        List<Ride> rides = rideService.getAvailableRidesWithFilters(city, startTime, endTime, minPrice, maxPrice);
-        return ResponseEntity.ok(rides);
-    }
+        Page<Ride> availableRides = rideService.getAvailableRidesWithFilters(city, startTime, endTime, minPrice, maxPrice, pageNumber, pageSize);
+    
+
+        if(availableRides == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+         }
+         
+         return new ResponseEntity<>(availableRides, HttpStatus.OK);
+      }
+    
+
     
     // Ride nach ID löschen
     @DeleteMapping("/{id}")

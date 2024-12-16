@@ -4,7 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import ch.zhaw.rentmybike.model.dtos.CreateUserDTO;
@@ -20,9 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Erstellung eines neuen Users
+    // Erstellung eines neuen Benutzers
     public User createUser(CreateUserDTO createUserDTO) {
-        //neue Adresse aus DTO-Daten erstellen
+        // neue Adresse aus DTO-Daten erstellen
         Adress adress = new Adress();
         adress.setCountry(createUserDTO.getAdress().getCountry());
         adress.setCity(createUserDTO.getAdress().getCity());
@@ -30,7 +31,7 @@ public class UserService {
         adress.setStreet(createUserDTO.getAdress().getStreet());
         adress.setStreetNumber(createUserDTO.getAdress().getStreetNumber());
         
-        // Neuen User erstellen und die Adresse-Id setzen
+        // Neuen Benutzer erstellen und die Adresse setzen
         User user = new User();
         user.setFirstName(createUserDTO.getFirstName());
         user.setLastName(createUserDTO.getLastName());
@@ -39,13 +40,12 @@ public class UserService {
         user.setLicenceCode(createUserDTO.getLicenseCode());
         user.setBirthdate(createUserDTO.getBirthdate());
         user.setState(UserState.NEW); 
-        user.setAdress(adress); // Adresse direkt im User setzen
+        user.setAdress(adress); // Adresse direkt im Benutzer setzen
 
         return userRepository.save(user);
     }
 
-
-    // User aktivieren / auf ACTIVE setzen
+    // Benutzer aktivieren / auf AKTIV setzen
     public Optional<User> activateUser(UserActivateDTO activateRequest) {
         Optional<User> userOptional = userRepository.findById(activateRequest.getUserId());
     
@@ -57,14 +57,14 @@ public class UserService {
                 userRepository.save(user);
                 return Optional.of(user);
             } else {
-                throw new IllegalStateException("User is not in a state that allows activation.");
+                throw new IllegalStateException("Benutzer ist nicht in einem Zustand, der eine Aktivierung erlaubt.");
             }
         }
     
-            return Optional.empty();
-        }
+        return Optional.empty();
+    }
 
-    // alle User ausgeben
+    // alle Benutzer ausgeben
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -72,6 +72,19 @@ public class UserService {
     // Benutzer anhand der ID abrufen
     public User getUserById(String userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+            .orElseThrow(() -> new RuntimeException("Benutzer nicht gefunden"));
     }
+
+    // Benutzer anhand der E-Mail-Adresse abrufen
+    public String getUserIdFromJwt(Jwt jwt) {
+        String userEmail = jwt.getClaimAsString("email");
+        User user = userRepository.findFirstByEmail(userEmail);
+        if (user == null) {
+            throw new UsernameNotFoundException("Kein Benutzer gefunden");
+        }
+        return user.getId();
+    }
+
+    
+
 }

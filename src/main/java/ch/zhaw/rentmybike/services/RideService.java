@@ -1,11 +1,12 @@
 package ch.zhaw.rentmybike.services;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import ch.zhaw.rentmybike.model.dtos.CreateRideDTO;
@@ -79,53 +80,74 @@ public class RideService {
     }
 
     // Filtern von verfügbaren Rides
+    public Page<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime,
+            Integer minPrice, Integer maxPrice, Integer pageNumber, Integer pageSize) {
 
-    public List<Ride> getAvailableRidesWithFilters(String city, LocalDateTime startTime, LocalDateTime endTime,
-            Integer minPrice, Integer maxPrice) {
         // Beginne mit allen verfügbaren Rides
-        List<Ride> filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
-
-        // Falls Stadt gegeben, filtern wir direkt nach Stadt in der Datenbank
-        if (city != null && !city.isEmpty()) {
-            filteredRides = rideRepository.findAvailableRidesByCity(city);
+        Page<Ride> filteredRides;
+        
+        // All combinations of search parameters
+        if (city==null && startTime==null && endTime==null && minPrice==null && maxPrice==null) {
+            filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE, PageRequest.of(pageNumber - 1, pageSize));
         } else {
-            // Starte mit allen verfügbaren Rides, falls Stadt nicht spezifiziert ist
-            filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE);
+            if (city != null && startTime != null && endTime != null && minPrice != null && maxPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetweenAndPriceBetween(
+                        city, startTime, endTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (city != null && startTime != null && endTime != null && minPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetweenAndMinPrice(
+                        city, startTime, endTime, minPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (city != null && startTime != null && endTime != null) {
+                filteredRides = rideRepository.findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetween(
+                        city, startTime, endTime, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (city != null && startTime != null) {
+                filteredRides = rideRepository.findAvailableRidesByCityAndStartTime(
+                        city, startTime, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (city != null) {
+                filteredRides = rideRepository.findAvailableRidesByCity(
+                        city, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && endTime != null && minPrice != null && maxPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByStartTimeBetweenAndEndTimeBetweenAndPriceBetween(
+                        startTime, endTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && endTime != null && minPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByStartTimeBetweenAndEndTimeBetweenAndMinPrice(
+                        startTime, endTime, minPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && endTime != null) {
+                filteredRides = rideRepository.findAvailableRidesByStartTimeBetweenAndEndTimeBetween(
+                        startTime, endTime, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && minPrice != null && maxPrice != null) {
+            // Filtere nach Startzeit und einem Preisbereich
+                filteredRides = rideRepository.findAvailableRidesByStartTimeAndPriceBetween(
+                        startTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && minPrice != null) {
+            // Filtere nach Startzeit und Mindestpreis
+                filteredRides = rideRepository.findAvailableRidesByStartTimeAndMinPrice(
+                        startTime, minPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null && maxPrice != null) {
+            // Filtere nach Startzeit und Höchstpreis
+                filteredRides = rideRepository.findAvailableRidesByStartTimeAndMaxPrice(
+                        startTime, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (startTime != null) {
+            // Filtere nur nach Startzeit
+                filteredRides = rideRepository.findAvailableRidesByStartTime(
+                        startTime, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (minPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByMinPrice(
+                        minPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (maxPrice != null) {
+                filteredRides = rideRepository.findAvailableRidesByMaxPrice(
+                        maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+            } else if (endTime != null) {
+                filteredRides = rideRepository.findAvailableRidesByEndTime(
+                        endTime, PageRequest.of(pageNumber - 1, pageSize));
+            }
+            
+            else {
+                filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE, PageRequest.of(pageNumber - 1, pageSize));
+            }
+        
         }
-
-        // Falls Startzeit angegeben, weiter filtern nach Startzeit
-        if (startTime != null) {
-            filteredRides = rideRepository.findAvailableRidesByStartTime(startTime)
-                    .stream()
-                    .filter(filteredRides::contains)
-                    .collect(Collectors.toList());
-        }
-
-        // Falls Endzeit angegeben, weiter filtern nach Endzeit
-        if (endTime != null) {
-            filteredRides = rideRepository.findAvailableRidesByEndTime(endTime)
-                    .stream()
-                    .filter(filteredRides::contains)
-                    .collect(Collectors.toList());
-        }
-
-        // Falls Mindestpreis gegeben, weiter filtern nach Mindestpreis
-        if (minPrice != null) {
-            filteredRides = rideRepository.findAvailableRidesByMinPrice(minPrice)
-                    .stream()
-                    .filter(filteredRides::contains)
-                    .collect(Collectors.toList());
-        }
-
-        // Falls Höchstpreis gegeben, weiter filtern nach Höchstpreis
-        if (maxPrice != null) {
-            filteredRides = rideRepository.findAvailableRidesByMaxPrice(maxPrice)
-                    .stream()
-                    .filter(filteredRides::contains)
-                    .collect(Collectors.toList());
-        }
-
         return filteredRides;
+
     }
 
 }
