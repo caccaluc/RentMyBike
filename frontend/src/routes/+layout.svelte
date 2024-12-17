@@ -38,7 +38,7 @@
         {/if}
         {#if $isAuthenticated}
           <li class="nav-item">
-            <a class="nav-link" href="/account">Account</a>
+            <a class="nav-link" href="/account">Profil</a>
           </li>
         {/if}
       </ul>

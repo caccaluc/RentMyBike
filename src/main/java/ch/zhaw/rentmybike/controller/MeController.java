@@ -105,7 +105,6 @@ public class MeController {
         User updatedUser = userRepository.save(existingUser);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 
-        // Allenfalls it DTO noch lösen!!!!!!!!!!!!
     }
 
     // Get all bikes of an owner
