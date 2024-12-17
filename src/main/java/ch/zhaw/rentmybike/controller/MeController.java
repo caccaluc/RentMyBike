@@ -1,6 +1,7 @@
 package ch.zhaw.rentmybike.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.repository.UserRepository;
+import ch.zhaw.rentmybike.services.RideService;
+import ch.zhaw.rentmybike.services.UserService;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -23,32 +27,38 @@ import ch.zhaw.rentmybike.repository.RideRepository;
 public class MeController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MotorcycleRepository motorcycleRepository;
 
-    @Autowired 
+    @Autowired
     private RideRepository rideRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    // Einen User anhand des JWTs zurückgeben
-   @GetMapping("/user")
-   public ResponseEntity<User> getMe(@AuthenticationPrincipal Jwt jwt) {
-      String userEmail = jwt.getClaimAsString("email");
+    @Autowired
+    private RideService rideService;
 
-      User user = userRepository.findFirstByEmail(userEmail);
-      if (user != null) {
-         return new ResponseEntity<>(user, HttpStatus.OK);
-      }
-      
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-   }
+    // Einen User anhand des JWTs zurückgeben
+    @GetMapping("/user")
+    public ResponseEntity<User> getMe(@AuthenticationPrincipal Jwt jwt) {
+        String userEmail = jwt.getClaimAsString("email");
+
+        User user = userRepository.findFirstByEmail(userEmail);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     // Alle Vermietungen eines Users zurückgeben
     @GetMapping("/rentals")
-    public ResponseEntity<Page<Ride>> getMyRides(@AuthenticationPrincipal Jwt jwt, 
-                                                 @RequestParam(required = false, defaultValue = "1") Integer pageNumber, 
-                                                 @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+    public ResponseEntity<Page<Ride>> getMyRides(@AuthenticationPrincipal Jwt jwt,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
         String userEmail = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(userEmail);
 
@@ -62,9 +72,9 @@ public class MeController {
 
     // Alle Mietungen eines Users zurückgeben
     @GetMapping("/rides")
-    public ResponseEntity<Page<Ride>> getMyRentals(@AuthenticationPrincipal Jwt jwt, 
-                                                   @RequestParam(required = false, defaultValue = "1") Integer pageNumber, 
-                                                   @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+    public ResponseEntity<Page<Ride>> getMyRentals(@AuthenticationPrincipal Jwt jwt,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
         String userEmail = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(userEmail);
 
@@ -95,7 +105,7 @@ public class MeController {
         User updatedUser = userRepository.save(existingUser);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
 
-        //Allenfalls it DTO noch lösen!!!!!!!!!!!!
+        // Allenfalls it DTO noch lösen!!!!!!!!!!!!
     }
 
     // Get all bikes of an owner
@@ -112,4 +122,31 @@ public class MeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    // Buchung eines Rides
+    @PutMapping("/bookRide")
+    public ResponseEntity<Ride> bookRide(@RequestParam String rideId) {
+        String userEmail = userService.getEmail();
+        Optional<Ride> ride = rideService.bookRide(rideId, userEmail);
+        if (ride.isPresent()) {
+            return new ResponseEntity<>(ride.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Abschluss eines Rides
+    @PutMapping("/completeRide")
+    public ResponseEntity<Ride> completeRide(@RequestParam String rideId) {
+        String userEmail = userService.getEmail();
+        Optional<Ride> ride = rideService.completeRide(rideId, userEmail);
+        if (ride.isPresent()) {
+            return new ResponseEntity<>(ride.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+ 
 }

@@ -7,17 +7,19 @@
    // const api_root = "https://502394bc-2ec7-4f62-9db1-9298f465d62d.mock.pstmn.io";
    const api_root = $page.url.origin;
 
+  // Variablen für die Pagination
   let currentPage;
   let nrOfPages = 0;
   let defaultPageSize = 6;
 
+  // Variablen für die Filter
   let priceMin;
   let priceMax;
   let startTime;
   let endTime;
   let city;
 
-  
+  // Variablen für die Rides
     let rides = [];
     let ride = {
         motorcycleId: null,
@@ -32,6 +34,7 @@
       
     };
 
+  // Wenn die Seite geladen wird, wird die Funktion getRides() aufgerufen
 $: {
     if ($jwt_token !== "") {
       let searchParams = $page.url.searchParams;
@@ -50,6 +53,7 @@ $: {
       getRides();
     });*/
   
+    // Funktion um die Query Parameter zu setzen und die Rides zu holen
     function getRides() {
       let query = "?pageSize=" + defaultPageSize + "&pageNumber=" + currentPage;
 
@@ -69,13 +73,14 @@ $: {
         query += "&endTime=" + endTime;
       }
 
-
+      // GET Request um die Rides zu holen
       var config = {
         method: "get",
         url: api_root + "/api/rides/status/available" + query,
         headers: {Authorization: "Bearer "+$jwt_token},
       };
   
+      // Response wird in die Variable rides gespeichert
       axios(config)
         .then(function (response) {
           rides= response.data.content;
@@ -86,12 +91,29 @@ $: {
           alert("Could not get rides");
           console.log(error);
         });
-    }
+      }
+
+      // Funktion um eine Vermietung zu buchen
+      function bookToMe(rideId) {
+    var config = {
+      method: "put",
+      url: api_root + "/api/me/bookRide?rideId=" + rideId,
+      headers: { Authorization: "Bearer " + $jwt_token },
+    };
+    axios(config)
+      .then(function (response) {
+        getRides();
+      })
+      .catch(function (error) {
+        alert("Konnte Vermietung nicht buchen");
+        console.log(error);
+      });
+  }
 </script>
 
 
 <h1>Alle verfügbaren Vermietungen</h1>
-
+<!-- Filter für die Vermietungen -->
 <div class="row my-3">
   <div class="col-auto">
     <label for="" class="col-form-label">mind. Preis: </label>
@@ -164,6 +186,9 @@ $: {
       role="button">Filtern</a
     >
   </div>
+<!-- Ende vom Filter für die Vermietungen -->
+
+<!-- Tabelle der Vermietungen -->
 </div>
   <table class="table">
     <thead>
@@ -175,6 +200,7 @@ $: {
         <th scope="col">Start der Vermietung</th>
         <th scope="col">Ende der Vermietung</th>
         <th scope="col">Preis</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -192,6 +218,21 @@ $: {
           <td>{ride.startingTime}</td>
           <td>{ride.endingTime}</td>
           <td>{ride.price}</td>
+          <td>
+            {#if ride.rideState === "AVAILABLE"}
+              <span class="badge bg-secondary">Verfügbar</span>
+            {:else if ride.renterId === null}
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                on:click={() => {
+                  bookToMe(ride.id);
+                }}
+              >
+                Buchen
+              </button>
+            {/if}
+          </td>
         </tr>
       {/each}
     </tbody>

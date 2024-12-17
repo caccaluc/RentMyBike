@@ -150,4 +150,33 @@ public class RideService {
 
     }
 
+    // Ride Status auf BOOKED setzen, wenn der aktuelle Status NEW ist
+    public Optional<Ride> bookRide(String rideId, String renterId) {
+        Optional<Ride> rideOptional = rideRepository.findById(rideId);
+        if (rideOptional.isPresent()) {
+            Ride ride = rideOptional.get();
+            if (ride.getStatus() == RideStatus.AVAILABLE) {
+                ride.setRenterId(renterId);
+                ride.setStatus(RideStatus.BOOKED);
+                rideRepository.save(ride);
+                return Optional.of(ride);
+            }
+        }
+        return Optional.empty();
+    }
+
+    // Ride Status auf COMPLETED setzen, wenn der aktuelle Status BOOKED ist
+    public Optional<Ride> completeRide(String rideId, String ownerId) {
+        Optional<Ride> rideOptional = rideRepository.findById(rideId);
+        if (rideOptional.isPresent()) {
+            Ride ride = rideOptional.get();
+            if (ride.getStatus() == RideStatus.BOOKED && ride.getRenterId().equals(ownerId)) {
+                ride.setStatus(RideStatus.COMPLETED);
+                rideRepository.save(ride);
+                return Optional.of(ride);
+            }
+        }
+        return Optional.empty();
+    }
+
 }
