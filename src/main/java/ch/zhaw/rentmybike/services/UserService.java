@@ -53,12 +53,31 @@ public class UserService {
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             
-            if (user.getState() == UserState.NEW) {
+            if (user.getState() != UserState.ACTIVE) {
                 user.setState(UserState.ACTIVE);
                 userRepository.save(user);
                 return Optional.of(user);
             } else {
                 throw new IllegalStateException("Benutzer ist nicht in einem Zustand, der eine Aktivierung erlaubt.");
+            }
+        }
+    
+        return Optional.empty();
+    }
+
+    // Benutzer deaktivieren / auf DEAKTIVIERT setzen
+    public Optional<User> deactivateUser(UserActivateDTO deactivateRequest) {
+        Optional<User> userOptional = userRepository.findById(deactivateRequest.getUserId());
+    
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            
+            if (user.getState() != UserState.DEACTIVATED) {
+                user.setState(UserState.DEACTIVATED);
+                userRepository.save(user);
+                return Optional.of(user);
+            } else {
+                throw new IllegalStateException("Benutzer ist nicht in einem Zustand, der eine Deaktivierung erlaubt.");
             }
         }
     
@@ -86,7 +105,7 @@ public class UserService {
         return user.getId();
     }
 
-    // E-Mail-Adresse des angemeldeten Benutzers abrufen
+    //
     public String getEmail() {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return jwt.getClaimAsString("email");

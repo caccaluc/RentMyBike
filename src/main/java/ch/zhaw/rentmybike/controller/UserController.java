@@ -1,9 +1,12 @@
 package ch.zhaw.rentmybike.controller;
 
-import java.util.List;
 import java.util.Optional;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,10 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.rentmybike.model.dtos.CreateUserDTO;
 import ch.zhaw.rentmybike.model.entities.User;
+import ch.zhaw.rentmybike.model.entities.User.UserState;
 import ch.zhaw.rentmybike.repository.UserRepository;
 import ch.zhaw.rentmybike.services.UserService;
 
@@ -31,9 +36,17 @@ public class UserController {
 
     // alle User ausgeben
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<Page<User>> getAllUsers(
+        @RequestParam(required = false) UserState state,
+        @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
+        @RequestParam(required = false, defaultValue = "9") Integer pageSize){
+        Page<User> allUsers;
+        if (state == null) {
+            allUsers = userRepository.findAll(PageRequest.of(pageNumber - 1, pageSize));
+        } else {
+            allUsers = userRepository.findByState(state, PageRequest.of(pageNumber - 1, pageSize));
+        }
+        return new ResponseEntity<>(allUsers, HttpStatus.OK);
     }
 
     // User-Daten anhand der ID ausgeben

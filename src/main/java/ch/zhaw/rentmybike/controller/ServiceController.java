@@ -45,6 +45,18 @@ public class ServiceController {
         }
     }
 
+    // User deaktivieren
+    @PutMapping("/deactivateUser")
+    public ResponseEntity<User> deactivateUser(@RequestBody UserActivateDTO deactivateRequest) {
+        Optional<User> user = userService.deactivateUser(deactivateRequest);
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
     // Ride-Status aktualisieren
     @PutMapping("/rides/{id}")
     public ResponseEntity<Ride> updateRideStatus(@PathVariable String id, @RequestParam RideStatus status) {

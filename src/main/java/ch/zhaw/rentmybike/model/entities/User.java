@@ -45,8 +45,8 @@ public class User {
     private List<String> motorcycleIds = new java.util.ArrayList<>();
 
     public enum UserState {
-        NEW, // New user, not yet activated
-        ACTIVE, // Active and ready to use the system
-        DEACTIVATED // Deactivated 
+        NEW, // Neuer Benutzer, noch nicht aktiviert
+        ACTIVE, // Aktiv und bereit, das System zu nutzen
+        DEACTIVATED // Deaktiviert
     }
 }
