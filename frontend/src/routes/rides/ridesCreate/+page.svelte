@@ -4,7 +4,6 @@
   import { onMount } from "svelte";
   import { jwt_token } from "../../../store";
 
-
   const api_root = $page.url.origin;
 
   let rides = [];
@@ -20,34 +19,13 @@
     price: null,
   };
 
-  onMount(() => {
-    getRides();
-  });
-
-  function getRides() {
-    var config = {
-      method: "get",
-      url: api_root + "/api/rides/status/available",
-      headers: {Authorization: "Bearer "+$jwt_token},
-    };
-
-    axios(config)
-      .then(function (response) {
-        rides = response.data;
-      })
-      .catch(function (error) {
-        alert("Could not get rides");
-        console.log(error);
-      });
-  }
-
   function createRide() {
     var config = {
       method: "post",
       url: api_root + "/api/rides/create",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer "+$jwt_token,
+        Authorization: "Bearer " + $jwt_token,
       },
       data: ride,
     };
@@ -55,7 +33,6 @@
     axios(config)
       .then(function (response) {
         alert("Ride created");
-        getRides();
       })
       .catch(function (error) {
         alert("Could not create Ride");
@@ -64,45 +41,59 @@
   }
 
   /** Definition für Motorräder */
- 
-
 
   let motorcycles = [];
-    let motorcycle = {
-        brand: null,
-        model: null, 
-        year: null,
-        color: null, 
-        licenceplate: null, 
-        value: null,
-        ps: null,
-        km: null,
-        UserId: null,
-      
+  let motorcycle = {
+    brand: null,
+    model: null,
+    year: null,
+    color: null,
+    licenceplate: null,
+    value: null,
+    ps: null,
+    km: null,
+    UserId: null,
+    id: null,
+  };
+
+  onMount(() => {
+    getMotorcycles();
+  });
+
+  function getMotorcycles() {
+    var config = {
+      method: "get",
+      url: api_root + "/api/me/motorcycles",
+      headers: { Authorization: "Bearer " + $jwt_token },
     };
-    
-    onMount(() => {
-      getMotorcycles();
-    });
-  
-    function getMotorcycles() {
-      var config = {
-        method: "get",
-        url: api_root + "/api/motorcycles",
-        headers: {Authorization: "Bearer "+$jwt_token},
-      };
-  
-      axios(config)
-        .then(function (response) {
-          motorcycles= response.data;
-        })
-        .catch(function (error) {
-          alert("Could not get motorcycles");
-          console.log(error);
-        });
-    }
 
+    axios(config)
+      .then(function (response) {
+        motorcycles = response.data;
+      })
+      .catch(function (error) {
+        alert("Could not get motorcycles");
+        console.log(error);
+      });
+  }
 
+  function deleteMotorcycle(motorcycleId) {
+    var config = {
+      method: "delete",
+      url: api_root + `/api/motorcycles/${motorcycleId}`,
+      headers: { Authorization: "Bearer " + $jwt_token },
+    };
+
+    axios(config)
+      .then(function (response) {
+        alert("Motorrad erfolgreich gelöscht");
+        getMotorcycles(); // Liste der Motorräder aktualisieren
+      })
+      .catch(function (error) {
+        alert("Fehler beim Löschen des Motorrads");
+        console.error("Error:", error);
+      });
+  }
 </script>
 
 <h1 class="mt-3">Erstelle eine Vermietung</h1>
@@ -191,19 +182,21 @@
         type="number"
       />
     </div>
-    <br>
+    <div>
+    <br />
     <button type="button" class="btn btn-primary" on:click={createRide}
       >Hinzufügen</button
     >
+    </div>
   </div>
 </form>
 
-<h1>Alle Motorräder</h1>
+<h1>Alle Meine Motorräder</h1>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Besitzer (User)</th>
+      <th scope="col">Motorrad-ID</th>
       <th scope="col">Marke</th>
       <th scope="col">Modell</th>
       <th scope="col">Jahr</th>
@@ -211,12 +204,13 @@
       <th scope="col">Kilometerstand</th>
       <th scope="col">Farbe</th>
       <th scope="col">Wert</th>
+      <th scope="col">Aktionen</th>
     </tr>
   </thead>
   <tbody>
     {#each motorcycles as motorcycle}
       <tr>
-        <td>{motorcycle.userId}</td>
+        <td>{motorcycle.id}</td>
         <td>{motorcycle.brand}</td>
         <td>{motorcycle.model}</td>
         <td>{motorcycle.year}</td>
@@ -224,17 +218,24 @@
         <td>{motorcycle.km}</td>
         <td>{motorcycle.color}</td>
         <td>{motorcycle.value}</td>
+        <td>
+          <button
+            class="btn btn-danger"
+            on:click={() => deleteMotorcycle(motorcycle.id)}
+          >
+            Löschen
+          </button>
       </tr>
     {/each}
   </tbody>
 </table>
 
-
-  
-  <section class="cards">
-    <div class="card">
-      <h2>Motorrad hinzufügen</h2>
-      <p>Füge ein Mottorrad hinzu, um eine Vermietung zu erstellen.</p>
-      <a class="primary-btn" href="/motorcycle/createMotorcycle">Motorrad hinzufügen</a>
-    </div>
-  </section>
+<section class="cards">
+  <div class="card">
+    <h2>Motorrad hinzufügen</h2>
+    <p>Füge ein Mottorrad hinzu, um eine Vermietung zu erstellen.</p>
+    <a class="primary-btn" href="/motorcycle/createMotorcycle"
+      >Motorrad hinzufügen</a
+    >
+  </div>
+</section>

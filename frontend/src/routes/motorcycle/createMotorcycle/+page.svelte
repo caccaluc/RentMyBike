@@ -4,6 +4,7 @@
     import { onMount } from "svelte";
     import { jwt_token } from "../../../store";
   
+    const api_root = $page.url.origin;
 
     let motorcycles = [];
     let motorcycle = {
@@ -15,10 +16,10 @@
         licensePlate: null,
         ps: null,
         km: null,  
-        userId: null,
     };
     
     function createMotorcycle() {
+        
       var config = {
         method: "post",
         url: api_root + "/api/motorcycles/create",
@@ -32,6 +33,7 @@
       axios(config)
         .then(function (response) {
           alert("Motorcycle created");
+          console.log(response.data);
           getMotorcycles();
         })
         .catch(function (error) {

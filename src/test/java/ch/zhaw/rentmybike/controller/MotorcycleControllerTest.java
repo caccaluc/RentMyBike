@@ -44,7 +44,7 @@ public class MotorcycleControllerTest {
         motorcycleDTO.setValue(15000);
         motorcycleDTO.setPs(200);
         motorcycleDTO.setKm(5000);
-        motorcycleDTO.setUserId("user123");
+        
 
         Motorcycle motorcycle = new Motorcycle();
         motorcycle.setId("1");

@@ -14,6 +14,9 @@ import ch.zhaw.rentmybike.repository.UserRepository;
 @Service
 public class MotorcycleService {
 
+    @Autowired 
+    private UserService userService;
+
     @Autowired
     private MotorcycleRepository motorcycleRepository;
 
@@ -22,6 +25,14 @@ public class MotorcycleService {
 
     // Motorrad hinzufügen
     public Motorcycle createMotorcycle(CreateMotorcycleDTO motorcycleDTO) {
+        // Benutzer-E-Mail mithilfe des UserService auslesen
+        String userEmail = userService.getEmail();
+        User user = userRepository.findFirstByEmail(userEmail);
+    
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+    
         // Neues Motorrad erstellen
         Motorcycle motorcycle = new Motorcycle();
         motorcycle.setBrand(motorcycleDTO.getBrand());
@@ -32,26 +43,32 @@ public class MotorcycleService {
         motorcycle.setValue(motorcycleDTO.getValue());
         motorcycle.setPs(motorcycleDTO.getPs());
         motorcycle.setKm(motorcycleDTO.getKm());
-        motorcycle.setUserId(motorcycleDTO.getUserId());
-
+        motorcycle.setUserId(user.getId()); // Benutzer-ID aus JWT setzen
+    
         // Motorrad speichern
         Motorcycle savedMotorcycle = motorcycleRepository.save(motorcycle);
-
-        // Benutzer finden und Motorrad-ID hinzufügen
-        Optional<User> userOptional = userRepository.findById(motorcycleDTO.getUserId());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.getMotorcycleIds().add(savedMotorcycle.getId());
-            userRepository.save(user);
-        }
-
+    
+        // Motorrad-ID zur Benutzer-Liste hinzufügen
+        user.getMotorcycleIds().add(savedMotorcycle.getId());
+        userRepository.save(user);
+    
         return savedMotorcycle;
     }
+    
 
-    // Motorrad aktualisieren
     public Motorcycle updateMotorcycle(String motorcycleId, CreateMotorcycleDTO motorcycleDTO) {
         Optional<Motorcycle> existingMotorcycle = motorcycleRepository.findById(motorcycleId);
+    
         if (existingMotorcycle.isPresent()) {
+            // Benutzer-ID aus dem JWT-Token extrahieren
+            String userEmail = userService.getEmail();
+            User user = userRepository.findFirstByEmail(userEmail);
+    
+            if (user == null) {
+                throw new IllegalArgumentException("User not found");
+            }
+    
+            // Motorrad aktualisieren
             Motorcycle motorcycle = existingMotorcycle.get();
             motorcycle.setBrand(motorcycleDTO.getBrand());
             motorcycle.setModel(motorcycleDTO.getModel());
@@ -61,13 +78,18 @@ public class MotorcycleService {
             motorcycle.setValue(motorcycleDTO.getValue());
             motorcycle.setPs(motorcycleDTO.getPs());
             motorcycle.setKm(motorcycleDTO.getKm());
-            motorcycle.setUserId(motorcycleDTO.getUserId());
+    
+            // Benutzer-ID setzen
+            motorcycle.setUserId(user.getId());
+    
             return motorcycleRepository.save(motorcycle);
         }
-        return null;
+    
+        throw new IllegalArgumentException("Motorcycle not found");
     }
+    
 
-    //Motorrad löschen
+    // Motorrad löschen
     public Optional<String> deleteMotorcycleById(String id) {
         Optional<Motorcycle> motorcycle = motorcycleRepository.findById(id);
 

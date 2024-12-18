@@ -298,10 +298,56 @@
   </ul>
 </nav>
 
-<section class="cards">
-  <div class="card">
-    <h2>Vermietung hinzufügen</h2>
-    <p>Füge eine Vermietung hinzu und profitiere von unserem Service.</p>
-    <a class="primary-btn" href="/rides/ridesCreate">Vermietung hinzufügen</a>
+<section class="cards mt-5">
+  <div class="card text-center shadow-lg p-4 rounded">
+    <h2 class="card-title mb-3">Vermietung hinzufügen</h2>
+    <p class="card-text">
+      Füge eine neue Vermietung hinzu und profitiere von unserem umfassenden Service.
+    </p>
+    <a
+      class="btn btn-primary btn-lg mt-2"
+      href="/rides/ridesCreate"
+      >Vermietung hinzufügen</a
+    >
   </div>
 </section>
+
+<style>
+  .cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    max-width: 400px;
+    background-color: #f8f9fa; /* Hellgrauer Hintergrund */
+    border: none; /* Entfernt Standardrahmen */
+    border-radius: 10px; /* Abgerundete Ecken */
+  }
+
+  .card-title {
+    color: #007bff; /* Blau für Titel */
+    font-weight: bold;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #555; /* Dunkelgraue Schrift */
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+  }
+
+  .shadow-lg {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Schöner Schatten */
+  }
+</style>

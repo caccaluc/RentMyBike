@@ -18,5 +18,5 @@ public class CreateMotorcycleDTO {
     private int value;
     private int ps;
     private int km;
-    private String userId;
+    
 }

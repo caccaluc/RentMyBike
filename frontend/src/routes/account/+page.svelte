@@ -97,7 +97,7 @@
 
   </script>
 <!-- Hauptüberschrift -->
-<h1 class="text-primary text-center my-4">Dein Profil</h1>
+<h1 class="text-primary text-center my-4">Mein Profil</h1>
 
 <!-- Benutzerprofil -->
 {#if $isAuthenticated}

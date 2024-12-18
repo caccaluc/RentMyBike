@@ -108,18 +108,35 @@ public class MeController {
     }
 
     // Get all bikes of an owner
-    @GetMapping("/mototcycles")
+    @GetMapping("/motorcycles")
     public ResponseEntity<List<Motorcycle>> getMyMotorcycles(@AuthenticationPrincipal Jwt jwt) {
         String email = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(email);
 
         if (user != null) {
-            List<String> motorcycleIds = user.getMotorcycleIds();
-            List<Motorcycle> motorcycles = motorcycleRepository.findAllById(motorcycleIds);
+            List<Motorcycle> motorcycles = motorcycleRepository.findByUserId(user.getId());
             return new ResponseEntity<>(motorcycles, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        }
+
+    // Löschen eines eigenen Motorrads
+    @DeleteMapping("/motorcycles/{id}")
+    public ResponseEntity<Void> deleteMotorcycle(@PathVariable String id) {
+        String email = userService.getEmail();
+        User user = userRepository.findFirstByEmail(email);
+
+        if (user != null) {
+            Optional<Motorcycle> motorcycle = motorcycleRepository.findById(id);
+            if (motorcycle.isPresent()) {
+                if (motorcycle.get().getUserId().equals(user.getId())) {
+                    motorcycleRepository.deleteById(id);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Buchung eines Rides
@@ -145,6 +162,8 @@ public class MeController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
 
 
  
