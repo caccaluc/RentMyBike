@@ -136,5 +136,6 @@
         </div>
     </div>
     <button type="button" class="btn btn-primary" on:click={createMotorcycle}>Erstellen</button>
+    <button type="button" class="btn btn-secondary" on:click={() => window.history.back()}>Zurück</button>
 </form>
   

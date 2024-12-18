@@ -30,6 +30,11 @@
             <a class="nav-link" href="/rides/myRides">Meine Vermietungen</a>
           </li>
         {/if}
+        {#if $isAuthenticated && $user.user_roles.includes("user") && $user.user_roles}
+          <li class="nav-item">
+            <a class="nav-link" href="/motorcycle/my">Meine Motorräder</a>
+          </li>
+        {/if}
         {#if $isAuthenticated && $user.user_roles.includes("admin") && $user.user_roles}
         <li class="nav-item">
           <a class="nav-link" href="/user/all">Benutzerverwaltung</a>

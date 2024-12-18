@@ -100,13 +100,15 @@
 <form class="mb-5">
   <div class="row mb-3">
     <div class="col">
-      <label class="form-label" for="motorcycleId">Motorrad-ID</label>
-      <input
-        bind:value={ride.motorcycleId}
-        class="form-control"
-        id="motorcycleId"
-        type="text"
-      />
+      <label class="form-label" for="motorcycleId">Motorrad auswählen</label>
+      <select bind:value={ride.motorcycleId} class="form-select" id="motorcycleId">
+        <option value="" disabled selected>-- Bitte Motorrad auswählen --</option>
+        {#each motorcycles as motorcycle}
+          <option value={motorcycle.id}>
+            {motorcycle.brand} {motorcycle.model} ({motorcycle.year})
+          </option>
+        {/each}
+      </select>
     </div>
   </div>
   <div class="row mb-3">
@@ -191,12 +193,11 @@
   </div>
 </form>
 
-<h1>Alle Meine Motorräder</h1>
+<h1 class="section-title">Meine Motorräder</h1>
 
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Motorrad-ID</th>
       <th scope="col">Marke</th>
       <th scope="col">Modell</th>
       <th scope="col">Jahr</th>
@@ -210,7 +211,6 @@
   <tbody>
     {#each motorcycles as motorcycle}
       <tr>
-        <td>{motorcycle.id}</td>
         <td>{motorcycle.brand}</td>
         <td>{motorcycle.model}</td>
         <td>{motorcycle.year}</td>
@@ -230,12 +230,64 @@
   </tbody>
 </table>
 
-<section class="cards">
-  <div class="card">
-    <h2>Motorrad hinzufügen</h2>
-    <p>Füge ein Mottorrad hinzu, um eine Vermietung zu erstellen.</p>
-    <a class="primary-btn" href="/motorcycle/createMotorcycle"
+<section class="cards mt-5">
+  <div class="card text-center shadow-lg p-4 rounded">
+    <h2 class="card-title mb-3">Motorrad hinzufügen</h2>
+    <p class="card-text">
+      Füge eine neues Motorrad hinzu und profitiere von unserem umfassenden
+      Service.
+    </p>
+    <a
+      class="btn btn-primary btn-lg mt-2"
+      href="/motorcycle/createMotorcycle"
       >Motorrad hinzufügen</a
     >
   </div>
 </section>
+
+<style>
+  .cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    max-width: 400px;
+    background-color: #f8f9fa; /* Hellgrauer Hintergrund */
+    border: none; /* Entfernt Standardrahmen */
+    border-radius: 10px; /* Abgerundete Ecken */
+  }
+
+  .card-title {
+    color: #007bff; /* Blau für Titel */
+    font-weight: bold;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #555; /* Dunkelgraue Schrift */
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Leichtes Vergrößern beim Hover */
+  }
+
+  .shadow-lg {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Schöner Schatten */
+  }
+  .section-title {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+  }
+
+</style>

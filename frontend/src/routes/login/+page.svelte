@@ -27,65 +27,61 @@
     
     {#if !$isAuthenticated}
     
+    <h1>Anmelden</h1>
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">Anmelden</div>
-                    <div class="card-body">
-                        <form
-                            on:submit|preventDefault={loginWithUsernameAndPassword}
-                            bind:this={loginForm}
-                            class="needs-validation"
-                            novalidate
-                        >
-                            <div class="mb-3">
-                                <label for="username" class="form-label"
-                                    >Email</label
-                                >
-                                <input
-                                    bind:value={username}
-                                    type="text"
-                                    class="form-control"
-                                    id="username"
-                                    name="username"
-                                    required
-                                />
-                                <div class="invalid-feedback">
-                                    Bitte gib deine E-Mail Adress an.
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label"
-                                    >Passwort</label
-                                >
-                                <input
-                                    bind:value={password}
-                                    type="password"
-                                    class="form-control"
-                                    id="password"
-                                    name="password"
-                                    required
-                                />
-                                <div class="invalid-feedback">
-                                    Bitte gib dein Passwort an.
-                                </div>
-                            </div>
-                            <div class="row align-items-end">
-                                <div class="col">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-primary">Anmelden</button
-                                    >
-                                </div>
-                                <div class="col-auto">
-                                    <a href="/signup">Registrieren</a>
-                                </div>
-                            </div>
-                        </form>
+        <div class="row justify-content-center"> 
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">Anmelden</div>
+              <div class="card-body text-start"> 
+                <form
+                  on:submit|preventDefault={loginWithUsernameAndPassword}
+                  bind:this={loginForm}
+                  class="needs-validation"
+                  novalidate
+                >
+                  <!-- Email Eingabefeld -->
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Email</label>
+                    <input
+                      bind:value={username}
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      name="username"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Bitte gib deine E-Mail Adresse an.
                     </div>
-                </div>
+                  </div>
+      
+                  <!-- Passwort Eingabefeld -->
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Passwort</label>
+                    <input
+                      bind:value={password}
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      name="password"
+                      required
+                    />
+                    <div class="invalid-feedback">
+                      Bitte gib dein Passwort an.
+                    </div>
+                  </div>
+      
+                  <!-- Anmelden Button und Registrieren Link -->
+                  <div class="d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn btn-primary">Anmelden</button>
+                    <a href="/signup" class="text-decoration-none">Registrieren</a>
+                  </div>
+                </form>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
+      
     {/if}

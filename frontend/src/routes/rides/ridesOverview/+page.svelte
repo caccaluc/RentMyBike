@@ -144,7 +144,7 @@
   }
 </script>
 
-<h1>Alle verfügbaren Vermietungen</h1>
+<h1 class="section-title">Alle verfügbaren Vermietungen</h1>
 <!-- Filter für die Vermietungen -->
 <div class="row my-3">
   <div class="col-auto">
@@ -350,4 +350,11 @@
   .shadow-lg {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Schöner Schatten */
   }
+  .section-title {
+    font-size: 1.5rem;
+    margin-top: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+  }
+
 </style>

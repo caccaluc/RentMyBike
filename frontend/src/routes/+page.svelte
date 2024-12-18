@@ -21,12 +21,12 @@
 <section class="cards">
     {#if $isAuthenticated && $user.user_roles.includes("user") && $user.user_roles}
         <div class="card">
-            <h2>Motorrad suchen</h2>
+            <h2>Vermietung finden</h2>
             <p>
                 Suche nach einem Motorrad, welches für eine Vermietung zu Verfügung
                 steht.
             </p>
-            <a class="primary-btn" href="/rides/ridesOverview">Vermietung finden</a>
+            <a class="primary-btn" href="/rides/ridesOverview">Suchen</a>
         </div>
     {/if}
     {#if !$isAuthenticated}
