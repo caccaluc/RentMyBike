@@ -71,7 +71,7 @@ public class MeController {
     }
 
     // Alle Mietungen eines Users zurückgeben
-    @GetMapping("/rides")
+    @GetMapping("/bookings")
     public ResponseEntity<Page<Ride>> getMyRentals(@AuthenticationPrincipal Jwt jwt,
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "5") Integer pageSize) {

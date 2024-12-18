@@ -3,7 +3,6 @@ package ch.zhaw.rentmybike.services;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -85,14 +84,15 @@ public class RideService {
 
         // Beginne mit allen verfügbaren Rides
         Page<Ride> filteredRides;
-        
+
         // All combinations of search parameters
-        if (city==null && startTime==null && endTime==null && minPrice==null && maxPrice==null) {
+        if (city == null && startTime == null && endTime == null && minPrice == null && maxPrice == null) {
             filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE, PageRequest.of(pageNumber - 1, pageSize));
         } else {
             if (city != null && startTime != null && endTime != null && minPrice != null && maxPrice != null) {
-                filteredRides = rideRepository.findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetweenAndPriceBetween(
-                        city, startTime, endTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
+                filteredRides = rideRepository
+                        .findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetweenAndPriceBetween(
+                                city, startTime, endTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
             } else if (city != null && startTime != null && endTime != null && minPrice != null) {
                 filteredRides = rideRepository.findAvailableRidesByCityAndStartTimeBetweenAndEndTimeBetweenAndMinPrice(
                         city, startTime, endTime, minPrice, PageRequest.of(pageNumber - 1, pageSize));
@@ -115,19 +115,19 @@ public class RideService {
                 filteredRides = rideRepository.findAvailableRidesByStartTimeBetweenAndEndTimeBetween(
                         startTime, endTime, PageRequest.of(pageNumber - 1, pageSize));
             } else if (startTime != null && minPrice != null && maxPrice != null) {
-            // Filtere nach Startzeit und einem Preisbereich
+                // Filtere nach Startzeit und einem Preisbereich
                 filteredRides = rideRepository.findAvailableRidesByStartTimeAndPriceBetween(
                         startTime, minPrice, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
             } else if (startTime != null && minPrice != null) {
-            // Filtere nach Startzeit und Mindestpreis
+                // Filtere nach Startzeit und Mindestpreis
                 filteredRides = rideRepository.findAvailableRidesByStartTimeAndMinPrice(
                         startTime, minPrice, PageRequest.of(pageNumber - 1, pageSize));
             } else if (startTime != null && maxPrice != null) {
-            // Filtere nach Startzeit und Höchstpreis
+                // Filtere nach Startzeit und Höchstpreis
                 filteredRides = rideRepository.findAvailableRidesByStartTimeAndMaxPrice(
                         startTime, maxPrice, PageRequest.of(pageNumber - 1, pageSize));
             } else if (startTime != null) {
-            // Filtere nur nach Startzeit
+                // Filtere nur nach Startzeit
                 filteredRides = rideRepository.findAvailableRidesByStartTime(
                         startTime, PageRequest.of(pageNumber - 1, pageSize));
             } else if (minPrice != null) {
@@ -140,24 +140,33 @@ public class RideService {
                 filteredRides = rideRepository.findAvailableRidesByEndTime(
                         endTime, PageRequest.of(pageNumber - 1, pageSize));
             }
-            
+
             else {
-                filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE, PageRequest.of(pageNumber - 1, pageSize));
+                filteredRides = rideRepository.findByStatus(RideStatus.AVAILABLE,
+                        PageRequest.of(pageNumber - 1, pageSize));
             }
-        
+
         }
         return filteredRides;
 
     }
 
-    // Ride Status auf BOOKED setzen, wenn der aktuelle Status NEW ist
-    public Optional<Ride> bookRide(String rideId, String renterId) {
+    // Ride Status auf BOOKED setzen, wenn der aktuelle Status AVAILABLE ist
+    public Optional<Ride> bookRide(String rideId, String renterEmail) {
+        // Benutzer anhand der E-Mail abrufen
+        User renter = userRepository.findFirstByEmail(renterEmail);
+
+        // Ride abrufen
         Optional<Ride> rideOptional = rideRepository.findById(rideId);
         if (rideOptional.isPresent()) {
             Ride ride = rideOptional.get();
+
+            // Prüfen, ob der Status AVAILABLE ist
             if (ride.getStatus() == RideStatus.AVAILABLE) {
-                ride.setRenterId(renterId);
+                ride.setRenterId(renter.getId()); // Hier die User-ID setzen
                 ride.setStatus(RideStatus.BOOKED);
+
+                // Ride speichern
                 rideRepository.save(ride);
                 return Optional.of(ride);
             }
