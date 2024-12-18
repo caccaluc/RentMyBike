@@ -1,6 +1,6 @@
 <script>
     import "./styles.css";
-    import { isAuthenticated } from "../store";
+    import { isAuthenticated, user } from "../store";
     import auth from "../auth.service";
 
     
@@ -19,6 +19,7 @@
 </div>
 ¨
 <section class="cards">
+    {#if $isAuthenticated && $user.user_roles.includes("user") && $user.user_roles}
         <div class="card">
             <h2>Motorrad suchen</h2>
             <p>
@@ -27,6 +28,7 @@
             </p>
             <a class="primary-btn" href="/rides/ridesOverview">Vermietung finden</a>
         </div>
+    {/if}
     {#if !$isAuthenticated}
         <div class="card">
             <h2>Anmelden</h2>

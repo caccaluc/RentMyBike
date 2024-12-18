@@ -36,15 +36,15 @@ public class RideService {
     public Ride createRide(CreateRideDTO createRideDTO) {
         // Motorrad anhand der ID abrufen
         Motorcycle motorcycle = motorcycleRepository.findById(createRideDTO.getMotorcycleId())
-                .orElseThrow(() -> new IllegalArgumentException("Motorcycle not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Motorrad nicht gefunden"));
 
         // User, der Besitzer des Motorrads ist, abrufen
         User user = userRepository.findById(motorcycle.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("Owner not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Besitzer nicht gefunden"));
 
         // Prüfen, ob der User aktiv ist
         if (user.getState() != UserState.ACTIVE) {
-            throw new IllegalStateException("Ride creation is only allowed for active users.");
+            throw new IllegalStateException("Nut aktive Benutzer können eine Vermietung erstellen.");
         }
 
         // Address-Objekt manuell aus DTO-Daten erstellen
