@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.repository.UserRepository;
 import ch.zhaw.rentmybike.services.RideService;
+import ch.zhaw.rentmybike.services.RoleService;
 import ch.zhaw.rentmybike.services.UserService;
 
 import org.springframework.data.domain.Page;
@@ -41,9 +42,17 @@ public class MeController {
     @Autowired
     private RideService rideService;
 
+    @Autowired
+    private RoleService roleService;
+
     // Einen User anhand des JWTs zurückgeben
     @GetMapping("/user")
     public ResponseEntity<User> getMe(@AuthenticationPrincipal Jwt jwt) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         String userEmail = jwt.getClaimAsString("email");
 
         User user = userRepository.findFirstByEmail(userEmail);
@@ -59,6 +68,10 @@ public class MeController {
     public ResponseEntity<Page<Ride>> getMyRides(@AuthenticationPrincipal Jwt jwt,
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+
+        if (!(roleService.userHasRole("user"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         String userEmail = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(userEmail);
 
@@ -75,6 +88,10 @@ public class MeController {
     public ResponseEntity<Page<Ride>> getMyRentals(@AuthenticationPrincipal Jwt jwt,
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "5") Integer pageSize) {
+
+        if (!(roleService.userHasRole("user"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         String userEmail = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(userEmail);
 
@@ -89,6 +106,10 @@ public class MeController {
     // Benutzerdaten aktualisieren
     @PutMapping("/user")
     public ResponseEntity<User> updateMe(@AuthenticationPrincipal Jwt jwt, @RequestBody User user) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         String userEmail = jwt.getClaimAsString("email");
         User existingUser = userRepository.findFirstByEmail(userEmail);
 
@@ -110,6 +131,10 @@ public class MeController {
     // Get all bikes of an owner
     @GetMapping("/motorcycles")
     public ResponseEntity<List<Motorcycle>> getMyMotorcycles(@AuthenticationPrincipal Jwt jwt) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         String email = jwt.getClaimAsString("email");
         User user = userRepository.findFirstByEmail(email);
 
@@ -119,11 +144,16 @@ public class MeController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        }
+    }
 
     // Löschen eines eigenen Motorrads
     @DeleteMapping("/motorcycles/{id}")
     public ResponseEntity<Void> deleteMotorcycle(@PathVariable String id) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         String email = userService.getEmail();
         User user = userRepository.findFirstByEmail(email);
 
@@ -142,6 +172,11 @@ public class MeController {
     // Buchung eines Rides
     @PutMapping("/bookRide")
     public ResponseEntity<Ride> bookRide(@RequestParam String rideId) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         String userEmail = userService.getEmail();
         Optional<Ride> ride = rideService.bookRide(rideId, userEmail);
         if (ride.isPresent()) {
@@ -154,6 +189,11 @@ public class MeController {
     // Abschluss eines Rides
     @PutMapping("/completeRide")
     public ResponseEntity<Ride> completeRide(@RequestParam String rideId) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        
         String userEmail = userService.getEmail();
         Optional<Ride> ride = rideService.completeRide(rideId, userEmail);
         if (ride.isPresent()) {
@@ -163,8 +203,4 @@ public class MeController {
         }
     }
 
-
-
-
- 
 }

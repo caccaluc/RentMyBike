@@ -22,7 +22,7 @@ import ch.zhaw.rentmybike.model.dtos.CreateRideDTO;
 import ch.zhaw.rentmybike.model.entities.Ride;
 import ch.zhaw.rentmybike.repository.RideRepository;
 import ch.zhaw.rentmybike.services.RideService;
-
+import ch.zhaw.rentmybike.services.RoleService;
 
 @RestController
 @RequestMapping("api/rides")
@@ -32,35 +32,45 @@ public class RideController {
     private RideRepository rideRepository;
     @Autowired
     private RideService rideService;
-    
-
+    @Autowired
+    private RoleService roleService;
 
     // Erstellen eines neuen Ride
     @PostMapping("/create")
     public ResponseEntity<Ride> createRide(@RequestBody CreateRideDTO createRideDTO) {
+
+        if (!(roleService.userHasRole("user"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Ride newRide = rideService.createRide(createRideDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(newRide);
     }
 
-
-
-     // Alle Rides abrufen
+    // Alle Rides abrufen
     @GetMapping("/all")
-    public List<Ride> getAllRides() {
-        return rideRepository.findAll();
+    public ResponseEntity<List<Ride>> getAllRides() {
+
+        if (!(roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        List<Ride> rides = rideRepository.findAll();
+        return ResponseEntity.ok(rides);
     }
-
-
 
     // Ride nach ID abrufen
     @GetMapping("/{id}")
     public ResponseEntity<Ride> getRideById(@PathVariable String id) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Optional<Ride> ride = rideRepository.findById(id);
         return ride.map(ResponseEntity::ok)
-                   .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-
-
 
     // Alle verfügbaren Rides abrufen
     @GetMapping("/status/available")
@@ -72,24 +82,29 @@ public class RideController {
             @RequestParam(required = false) Integer maxPrice,
             @RequestParam(required = false, defaultValue = "1") Integer pageNumber,
             @RequestParam(required = false, defaultValue = "9") Integer pageSize) {
-    
-    
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         // Rufe den Service auf, um die gefilterten Rides zu erhalten
-        Page<Ride> availableRides = rideService.getAvailableRidesWithFilters(city, startTime, endTime, minPrice, maxPrice, pageNumber, pageSize);
-    
+        Page<Ride> availableRides = rideService.getAvailableRidesWithFilters(city, startTime, endTime, minPrice,
+                maxPrice, pageNumber, pageSize);
 
-        if(availableRides == null) {
+        if (availableRides == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-         }
-         
-         return new ResponseEntity<>(availableRides, HttpStatus.OK);
-      }
-    
+        }
 
-    
+        return new ResponseEntity<>(availableRides, HttpStatus.OK);
+    }
+
     // Ride nach ID löschen
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRideById(@PathVariable String id) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Optional<Ride> ride = rideRepository.findById(id);
         if (ride.isPresent()) {
             rideRepository.deleteById(id);

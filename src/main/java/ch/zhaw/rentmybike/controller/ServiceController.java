@@ -2,6 +2,7 @@ package ch.zhaw.rentmybike.controller;
 
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import ch.zhaw.rentmybike.model.entities.Ride.RideStatus;
 import ch.zhaw.rentmybike.model.entities.User;
 import ch.zhaw.rentmybike.services.MotorcycleService;
 import ch.zhaw.rentmybike.services.RideService;
+import ch.zhaw.rentmybike.services.RoleService;
 import ch.zhaw.rentmybike.services.UserService;
 
 @RestController
@@ -32,10 +34,16 @@ public class ServiceController {
     private UserService userService;
      @Autowired
     private RideService rideService;
+    @Autowired
+    private RoleService roleService;
 
     // User aktivieren
     @PutMapping("/activateUser")
     public ResponseEntity<User> activateUser(@RequestBody UserActivateDTO activateRequest) {
+
+        if (!(roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Optional<User> user = userService.activateUser(activateRequest);
 
         if (user.isPresent()) {
@@ -50,6 +58,10 @@ public class ServiceController {
     public ResponseEntity<User> deactivateUser(@RequestBody UserActivateDTO deactivateRequest) {
         Optional<User> user = userService.deactivateUser(deactivateRequest);
 
+        if (!(roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get());
         } else {
@@ -60,6 +72,10 @@ public class ServiceController {
     // Ride-Status aktualisieren
     @PutMapping("/rides/{id}")
     public ResponseEntity<Ride> updateRideStatus(@PathVariable String id, @RequestParam RideStatus status) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Ride updatedRide = rideService.updateRideStatus(id, status);
         if (updatedRide != null) {
             return ResponseEntity.ok(updatedRide);
@@ -70,6 +86,10 @@ public class ServiceController {
     // Aktualisieren eines bestehenden Motorrads
     @PutMapping("/motorcycles/{id}")
     public ResponseEntity<Motorcycle> updateMotorcycle(@PathVariable String id, @RequestBody CreateMotorcycleDTO motorcycleDTO) {
+
+        if (!(roleService.userHasRole("user") || roleService.userHasRole("admin"))) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Motorcycle updatedMotorcycle = motorcycleService.updateMotorcycle(id, motorcycleDTO);
         if (updatedMotorcycle != null) {
             return ResponseEntity.ok(updatedMotorcycle);
