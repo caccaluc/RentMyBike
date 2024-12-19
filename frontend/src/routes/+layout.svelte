@@ -32,12 +32,12 @@
         {/if}
         {#if $isAuthenticated && $user.user_roles.includes("user") && $user.user_roles}
           <li class="nav-item">
-            <a class="nav-link" href="/motorcycle/my">Meine Motorräder</a>
+            <a class="nav-link" href="/rides/mybookedRides">Meine Buchungen</a>
           </li>
         {/if}
         {#if $isAuthenticated && $user.user_roles.includes("user") && $user.user_roles}
           <li class="nav-item">
-            <a class="nav-link" href="/rides/mybookedRides">Meine Buchungen</a>
+            <a class="nav-link" href="/motorcycle/my">Meine Motorräder</a>
           </li>
         {/if}
         {#if $isAuthenticated && $user.user_roles.includes("admin") && $user.user_roles}
