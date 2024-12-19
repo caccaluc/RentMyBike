@@ -179,7 +179,7 @@ public class RideService {
         Optional<Ride> rideOptional = rideRepository.findById(rideId);
         if (rideOptional.isPresent()) {
             Ride ride = rideOptional.get();
-            if (ride.getStatus() == RideStatus.BOOKED && ride.getRenterId().equals(ownerId)) {
+            if (ride.getStatus() == RideStatus.BOOKED) {
                 ride.setStatus(RideStatus.COMPLETED);
                 rideRepository.save(ride);
                 return Optional.of(ride);
