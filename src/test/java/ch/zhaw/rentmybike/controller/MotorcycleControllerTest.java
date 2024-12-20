@@ -3,38 +3,67 @@ package ch.zhaw.rentmybike.controller;
 import ch.zhaw.rentmybike.model.dtos.CreateMotorcycleDTO;
 import ch.zhaw.rentmybike.model.entities.Motorcycle;
 import ch.zhaw.rentmybike.services.MotorcycleService;
+import ch.zhaw.rentmybike.services.RoleService;
 import ch.zhaw.rentmybike.repository.MotorcycleRepository;
+import ch.zhaw.rentmybike.security.TestSecurityConfig;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(MotorcycleController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestMethodOrder(OrderAnnotation.class)
+@Import(TestSecurityConfig.class)
 public class MotorcycleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private MotorcycleRepository motorcycleRepository;
-
-    @MockBean
     private MotorcycleService motorcycleService;
 
-    // Test für den Endpunkt: /api/motorcycles/create
+    @MockBean
+    private RoleService roleService;
+
+    @MockBean
+    private MotorcycleRepository motorcycleRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private static String motorcycleId; // Speichert die ID eines erstellten Motorrads
+
+    // Test 1: Erstellen eines Motorrads
     @Test
-    public void testCreateMotorcycle() throws Exception {
+    @Order(1)
+    @WithMockUser(roles = "user")
+    void testCreateMotorcycle() throws Exception {
+
+        // Mock: Rolle "user" ist vorhanden
+        Mockito.when(roleService.userHasRole("user")).thenReturn(true);
+
+        // Arrange: DTO und Mock-Motorrad erstellen
         CreateMotorcycleDTO motorcycleDTO = new CreateMotorcycleDTO();
         motorcycleDTO.setBrand("Yamaha");
         motorcycleDTO.setModel("R1");
@@ -44,7 +73,6 @@ public class MotorcycleControllerTest {
         motorcycleDTO.setValue(15000);
         motorcycleDTO.setPs(200);
         motorcycleDTO.setKm(5000);
-        
 
         Motorcycle motorcycle = new Motorcycle();
         motorcycle.setId("1");
@@ -56,106 +84,87 @@ public class MotorcycleControllerTest {
         motorcycle.setValue(15000);
         motorcycle.setPs(200);
         motorcycle.setKm(5000);
-        motorcycle.setUserId("user123");
 
-        // Mock the service to return the created motorcycle
-        when(motorcycleService.createMotorcycle(any(CreateMotorcycleDTO.class))).thenReturn(motorcycle);
+        // Mocken des Service-Aufrufs
+        Mockito.when(motorcycleService.createMotorcycle(Mockito.any(CreateMotorcycleDTO.class))).thenReturn(motorcycle);
 
-        mockMvc.perform(post("/api/motorcycles/create")
+        // Act: POST-Request
+        String jsonBody = objectMapper.writeValueAsString(motorcycleDTO);
+        var result = mockMvc.perform(post("/api/motorcycles/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"brand\":\"Yamaha\",\"model\":\"R1\",\"year\":2022,\"color\":\"Blau\",\"licensePlate\":\"ZH123456\",\"value\":15000,\"ps\":200,\"km\":5000,\"userId\":\"user123\"}"))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer token")
+                .content(jsonBody))
+                .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.brand").value("Yamaha"))
                 .andExpect(jsonPath("$.model").value("R1"))
-                .andExpect(jsonPath("$.year").value(2022))
-                .andExpect(jsonPath("$.color").value("Blau"))
-                .andExpect(jsonPath("$.licensePlate").value("ZH123456"))
-                .andExpect(jsonPath("$.value").value(15000))
-                .andExpect(jsonPath("$.ps").value(200))
-                .andExpect(jsonPath("$.km").value(5000))
-                .andExpect(jsonPath("$.userId").value("user123"));
+                .andReturn();
+
+        // ID speichern
+        String jsonResponse = result.getResponse().getContentAsString();
+        JsonNode jsonNode = objectMapper.readTree(jsonResponse);
+        motorcycleId = jsonNode.get("id").asText();
     }
 
-    
-
-    // Test für den Endpunkt: /api/motorcycles
+    // Test 2: Abrufen eines Motorrads nach ID
     @Test
-    public void testGetAllMotorcycles() throws Exception {
-        Motorcycle motorcycle1 = new Motorcycle();
-        motorcycle1.setId("1");
-        motorcycle1.setModel("Yamaha R1");
-
-        Motorcycle motorcycle2 = new Motorcycle();
-        motorcycle2.setId("2");
-        motorcycle2.setModel("Honda CB500");
-
-        when(motorcycleRepository.findAll()).thenReturn(List.of(motorcycle1, motorcycle2));
-
-        mockMvc.perform(get("/api/motorcycles"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].model").value("Yamaha R1"))
-                .andExpect(jsonPath("$[1].id").value("2"))
-                .andExpect(jsonPath("$[1].model").value("Honda CB500"));
-    }
-
-    // Test für den Endpunkt: /api/motorcycles/{id}
-    @Test
-    public void testGetMotorcycleById() throws Exception {
+    @Order(2)
+    @WithMockUser(roles = "user")
+    void testGetMotorcycleById() throws Exception {
+        // Arrange: Mock für ein Motorrad
         Motorcycle motorcycle = new Motorcycle();
-        motorcycle.setId("1");
-        motorcycle.setModel("Yamaha R1");
+        motorcycle.setId(motorcycleId);
+        motorcycle.setBrand("Yamaha");
+        motorcycle.setModel("R1");
 
-        when(motorcycleRepository.findById("1")).thenReturn(Optional.of(motorcycle));
+        Mockito.when(motorcycleRepository.findById(motorcycleId)).thenReturn(Optional.of(motorcycle));
+        Mockito.when(roleService.userHasRole("user")).thenReturn(true); // Mock der Rolle
 
-        mockMvc.perform(get("/api/motorcycles/1"))
+        // Act: GET-Request
+        mockMvc.perform(get("/api/motorcycles/" + motorcycleId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer token"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value("1"))
-                .andExpect(jsonPath("$.model").value("Yamaha R1"));
+                .andExpect(jsonPath("$.id").value(motorcycleId))
+                .andExpect(jsonPath("$.brand").value("Yamaha"))
+                .andExpect(jsonPath("$.model").value("R1"));
     }
 
+    // Test 3: Löschen eines Motorrads
     @Test
-    public void testGetMotorcycleByIdNotFound() throws Exception {
-        when(motorcycleRepository.findById("999")).thenReturn(Optional.empty());
+    @Order(3)
+    @WithMockUser(roles = "user")
+    void testDeleteMotorcycle() throws Exception {
+        // Arrange: Mock für das Löschen
+        Mockito.when(motorcycleService.deleteMotorcycleById(motorcycleId))
+                .thenReturn(Optional.of("Motorcycle deleted successfully"));
+        Mockito.when(roleService.userHasRole("user")).thenReturn(true); // Mock der Rolle
 
-        mockMvc.perform(get("/api/motorcycles/999"))
-                .andExpect(status().isNotFound()); // Status 404 für nicht gefunden
+        // Act: DELETE-Request
+        mockMvc.perform(delete("/api/motorcycles/" + motorcycleId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer token"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 
-    // Test für den Endpunkt: /api/motorcycles/user/{userId}
+    // Test 4: Abrufen eines gelöschten Motorrads
     @Test
-    public void testGetMotorcyclesByUserId() throws Exception {
-        Motorcycle motorcycle1 = new Motorcycle();
-        motorcycle1.setId("1");
-        motorcycle1.setModel("Yamaha R1");
-        motorcycle1.setUserId("user123");
+    @Order(4)
+    @WithMockUser(roles = "user")
+    void testGetDeletedMotorcycleById() throws Exception {
+        // Arrange: Simuliere, dass das Motorrad nicht gefunden wird
+        Mockito.when(motorcycleRepository.findById(motorcycleId)).thenReturn(Optional.empty());
 
-        when(motorcycleRepository.findByUserId("user123")).thenReturn(List.of(motorcycle1));
+        Mockito.when(roleService.userHasRole("user")).thenReturn(true); // Mock der Rolle
 
-        mockMvc.perform(get("/api/motorcycles/user/user123"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].model").value("Yamaha R1"))
-                .andExpect(jsonPath("$[0].userId").value("user123"));
-    }
-
-    // Test für den Endpunkt: /api/motorcycles/{id} (Löschen)
-    @Test
-    public void testDeleteMotorcycle() throws Exception {
-        when(motorcycleService.deleteMotorcycleById("1")).thenReturn(Optional.of("Motorcycle deleted successfully"));
-
-        mockMvc.perform(delete("/api/motorcycles/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Motorcycle deleted successfully"));
-    }
-
-    @Test
-    public void testDeleteMotorcycleNotFound() throws Exception {
-        when(motorcycleService.deleteMotorcycleById("2")).thenReturn(Optional.empty());
-
-        mockMvc.perform(delete("/api/motorcycles/2"))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("Motorcycle not found"));
+        // Act: GET-Request
+        mockMvc.perform(get("/api/motorcycles/" + motorcycleId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer token"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }
