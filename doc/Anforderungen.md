@@ -163,3 +163,7 @@ Dieses Modell spiegelt eine Plattformstruktur wider, die eine klare Trennung der
 ## Zustandsdiagramm
 
 ![Zustandsdiagramm](../figures//Zustandsdiagramm.png)
+
+## Liste mit funktionalen Anforderungen
+
+## Mockup/Skizze von UIs
