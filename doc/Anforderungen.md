@@ -167,3 +167,25 @@ Dieses Modell spiegelt eine Plattformstruktur wider, die eine klare Trennung der
 ## Liste mit funktionalen Anforderungen
 
 ## Mockup/Skizze von UIs
+
+Bevor ich mit der Umsetzung begann, habe ich mir Gedanken über das Design des Frontends gemacht. Dabei habe ich Skizzen der wichtigsten Seiten erstellt, um eine klarere Vorstellung von der Gestaltung zu erhalten. Diese Vorbereitungen halfen mir, das Gesamtbild besser zu visualisieren, bevor ich mit der eigentlichen Entwicklung startete.
+
+## UI Mockups
+
+### Home
+![UI_Home](../figures/UI_Home.png)
+
+### Vermietung finden
+![UI_Vermietung_finden](../figures/UI_Vermietung_finden.png)
+
+### Vermietung erstellen
+![UI_Vermietung_erstellen](../figures/UI_Vermietung_erstellen.png)
+
+#### Meine Vermietungen
+![UI_meine_Vermietungen](../figures/UI_meine_Vermietungen.png)
+
+#### Mein Profil
+![UI_mein_Profil](../figures/UI_mein_Profil.png)
+
+
+---

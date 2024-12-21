@@ -28,6 +28,10 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<sonar.organization>zhaw-rentmybike</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.token>e708c3f822fefd5f6eb4ea958a0d72b34b47f4ef</sonar.token>
+		<sonar.projectKey>zhaw-rentmybike_rentmybike</sonar.projectKey>
 	</properties>
 	<dependencies>
 		
