@@ -10,7 +10,7 @@ Die wichtigsten Use-Cases habe ich im Use-Case Diagramm erfasst. Es existieren n
 
 ---
 
-![Use-Case-Diagramm](../figures//Use-Case-Diagramm.png)
+![Use-Case-Diagramm](./figures/Use-Case-Diagramm.png)
 
 ---
 
@@ -88,7 +88,7 @@ Die wichtigsten Use-Cases habe ich im Use-Case Diagramm erfasst. Es existieren n
 
 ## ER-Modell
 
-![ER-Modell](../figures//ER.png)
+![ER-Modell](./figures/ER.png)
 
 # Eläuterung zu den Entitäten, Attributen und Beziehungen
 
@@ -162,9 +162,52 @@ Dieses Modell spiegelt eine Plattformstruktur wider, die eine klare Trennung der
 
 ## Zustandsdiagramm
 
-![Zustandsdiagramm](../figures//Zustandsdiagramm.png)
+![Zustandsdiagramm](./figures/Zustandsdiagramm.png)
 
-## Liste mit funktionalen Anforderungen
+
+## Funktionale Anforderungen für RentMyBike
+
+### **Benutzerverwaltung**
+1. **Registrierung von Benutzern**: Benutzer können ein Konto erstellen, indem sie persönliche Informationen wie Name, E-Mail und Passwort angeben.
+2. **Benutzer-Login und Authentifizierung**: Authentifizierung der Benutzer über ein sicheres Login-System (JWT-Token).
+3. **Rollenverwaltung**: Benutzer können unterschiedliche Rollen haben (z. B. Admin, User).
+4. **Aktivierung und Deaktivierung von Benutzerkonten**: Administratoren können Benutzerkonten aktivieren oder deaktivieren.
+5. **Benutzerprofil aktualisieren**: Benutzer können persönliche Daten und Kontoeinstellungen ändern.
+
+### **Motorradverwaltung**
+6. **Motorräder hinzufügen**: Benutzer können Motorräder mit Details wie Marke, Modell, Farbe, Leistung, Kilometerstand und Preis hinzufügen.
+7. **Motorräder anzeigen**: Alle verfügbaren Motorräder können in einer Liste angezeigt werden.
+8. **Motorrad bearbeiten**: Besitzer können Details eines Motorrads ändern.
+9. **Motorrad löschen**: Besitzer können ein Motorrad aus dem System entfernen.
+
+### **Vermietung (Rides)**
+10. **Ride erstellen**: Benutzer können eine Vermietung für ein Motorrad erstellen, einschließlich Startzeit, Endzeit und Abholadresse.
+11. **Ride anzeigen**: Benutzer können Details zu bestehenden Rides anzeigen.
+12. **Ride bearbeiten**: Besitzer können Details eines Rides aktualisieren (z. B. Abholadresse, Mietzeitraum).
+13. **Ride löschen**: Besitzer können eine Vermietung stornieren.
+14. **Ride-Status verwalten**: Status eines Rides (z. B. „Available“, „Booked“, „Completed“) kann geändert werden.
+
+### **Such- und Filterfunktionen**
+15. **Suche nach Motorrädern**: Benutzer können Motorräder nach Marke, Modell oder Preis filtern.
+16. **Filter für verfügbare Rides**: Benutzer können verfügbare Rides nach Stadt, Preis oder Zeitraum filtern.
+
+### **Bewertungssystem**
+17. **Bewertung abgeben**: Mieter können nach Abschluss einer Vermietung eine Bewertung für das Motorrad oder den Besitzer abgeben.
+18. **Bewertungen anzeigen**: Durchschnittliche Bewertung und Anzahl der Bewertungen für ein Motorrad oder einen Besitzer können angezeigt werden.
+
+### **Zahlungsabwicklung**
+19. **Preisberechnung**: Der Mietpreis wird basierend auf dem Zeitraum automatisch berechnet.
+20. **Zahlungsintegration**: Integration eines Zahlungssystems (z. B. PayPal, Stripe).
+
+### **Benachrichtigungen**
+21. **E-Mail-Benachrichtigungen**: Benutzer erhalten E-Mails für wichtige Ereignisse (z. B. Bestätigung einer Buchung, Änderung des Rides).
+22. **Systembenachrichtigungen**: Administratoren erhalten Benachrichtigungen bei ungewöhnlichen Aktivitäten.
+
+### **Administrationsfunktionen**
+23. **Verwaltung aller Benutzer**: Administratoren können Benutzerkonten einsehen und verwalten.
+24. **Überwachung der Motorräder**: Administratoren können die hinzugefügten Motorräder einsehen und ggf. entfernen.
+25. **Überprüfung von Rides**: Administratoren können alle Rides einsehen und verwalten.
+
 
 ## Mockup/Skizze von UIs
 
@@ -173,19 +216,18 @@ Bevor ich mit der Umsetzung begann, habe ich mir Gedanken über das Design des F
 ## UI Mockups
 
 ### Home
-![UI_Home](../figures/UI_Home.png)
+![UI_Home](./figures/UI_Home.png)
 
 ### Vermietung finden
-![UI_Vermietung_finden](../figures/UI_Vermietung_finden.png)
+![UI_Vermietung_finden](./figures/UI_Vermietung_finden.png)
 
 ### Vermietung erstellen
-![UI_Vermietung_erstellen](../figures/UI_Vermietung_erstellen.png)
+![UI_Vermietung_erstellen](./figures/UI_Vermietung_erstellen.png)
 
 #### Meine Vermietungen
-![UI_meine_Vermietungen](../figures/UI_meine_Vermietungen.png)
+![UI_meine_Vermietungen](./figures/UI_meine_Vermietungen.png)
 
 #### Mein Profil
-![UI_mein_Profil](../figures/UI_mein_Profil.png)
-
+![UI_mein_Profil](./figures/UI_mein_Profil.png)
 
 ---
