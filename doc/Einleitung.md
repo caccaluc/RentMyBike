@@ -44,22 +44,22 @@ Reisende, die während ihres Urlaubs oder Abenteuers Motorräder mieten möchten
 
 ## Explore-Board
 
-![Explore-Board](../figures/Explore-Board.png)
-![Explore-Board2](../figures/Explore-Board2.png)
+![Explore-Board](./figures/Explore-Board.png)
+![Explore-Board2](./figures/Explore-Board2.png)
 
 ---
 
 ## Create-Board
 
-![Create-Board](../figures/Create-Board.png)
-![Create-Board2](../figures/Create-Board2.png)
+![Create-Board](./figures/Create-Board.png)
+![Create-Board2](./figures/Create-Board2.png)
 
 ---
 
 ## Evaluate-Board
 
-![Evaluate-Board](../figures/Evaluate-Board.png)
-![Evaluate-Board2](../figures/Evaluate-Board2.png)
+![Evaluate-Board](./figures/Evaluate-Board.png)
+![Evaluate-Board2](./figures/Evaluate-Board2.png)
 
 ---
 
