@@ -165,48 +165,34 @@ Dieses Modell spiegelt eine Plattformstruktur wider, die eine klare Trennung der
 ![Zustandsdiagramm](./figures/Zustandsdiagramm.png)
 
 
-## Funktionale Anforderungen für RentMyBike
+# Nicht-funktionale Anforderungen für RentMyBike
 
-### **Benutzerverwaltung**
-1. **Registrierung von Benutzern**: Benutzer können ein Konto erstellen, indem sie persönliche Informationen wie Name, E-Mail und Passwort angeben.
-2. **Benutzer-Login und Authentifizierung**: Authentifizierung der Benutzer über ein sicheres Login-System (JWT-Token).
-3. **Rollenverwaltung**: Benutzer können unterschiedliche Rollen haben (z. B. Admin, User).
-4. **Aktivierung und Deaktivierung von Benutzerkonten**: Administratoren können Benutzerkonten aktivieren oder deaktivieren.
-5. **Benutzerprofil aktualisieren**: Benutzer können persönliche Daten und Kontoeinstellungen ändern.
+## 1. Skalierbarkeit
+- Die Anwendung muss skalierbar sein, um zukünftige Anforderungen und einen wachsenden Benutzerstamm zu unterstützen.
+- Das System soll horizontal und vertikal skalierbar sein, um erhöhte Lasten effizient zu bewältigen.
 
-### **Motorradverwaltung**
-6. **Motorräder hinzufügen**: Benutzer können Motorräder mit Details wie Marke, Modell, Farbe, Leistung, Kilometerstand und Preis hinzufügen.
-7. **Motorräder anzeigen**: Alle verfügbaren Motorräder können in einer Liste angezeigt werden.
-8. **Motorrad bearbeiten**: Besitzer können Details eines Motorrads ändern.
-9. **Motorrad löschen**: Besitzer können ein Motorrad aus dem System entfernen.
+## 2. Sicherheit
+- Alle Benutzeranmeldungen und -interaktionen müssen über HTTPS erfolgen.
+- Passwörter und sensible Daten müssen sicher verschlüsselt gespeichert werden.
+- Die JWT-Authentifizierung muss verwendet werden, um autorisierten Zugriff auf APIs sicherzustellen.
+- Regelmäßige Sicherheitsprüfungen (z. B. gegen SQL-Injections und XSS) sollen implementiert werden.
 
-### **Vermietung (Rides)**
-10. **Ride erstellen**: Benutzer können eine Vermietung für ein Motorrad erstellen, einschließlich Startzeit, Endzeit und Abholadresse.
-11. **Ride anzeigen**: Benutzer können Details zu bestehenden Rides anzeigen.
-12. **Ride bearbeiten**: Besitzer können Details eines Rides aktualisieren (z. B. Abholadresse, Mietzeitraum).
-13. **Ride löschen**: Besitzer können eine Vermietung stornieren.
-14. **Ride-Status verwalten**: Status eines Rides (z. B. „Available“, „Booked“, „Completed“) kann geändert werden.
+## 3. Wartbarkeit
+- Der Code soll modular und gut dokumentiert sein, um zukünftige Änderungen und Erweiterungen zu erleichtern.
+- Logs sollen generiert und sinnvoll strukturiert sein, um die Fehlersuche zu erleichtern.
 
-### **Such- und Filterfunktionen**
-15. **Suche nach Motorrädern**: Benutzer können Motorräder nach Marke, Modell oder Preis filtern.
-16. **Filter für verfügbare Rides**: Benutzer können verfügbare Rides nach Stadt, Preis oder Zeitraum filtern.
+## 4. Benutzerfreundlichkeit (Usability)
+- Das Frontend soll eine intuitive und leicht verständliche Benutzeroberfläche bieten, die für mobile und Desktop-Geräte optimiert ist.
+- Benutzer sollen wichtige Funktionen (z. B. Motorrad suchen, Vermietung erstellen) ohne vorherige Schulung nutzen können.
 
-### **Bewertungssystem**
-17. **Bewertung abgeben**: Mieter können nach Abschluss einer Vermietung eine Bewertung für das Motorrad oder den Besitzer abgeben.
-18. **Bewertungen anzeigen**: Durchschnittliche Bewertung und Anzahl der Bewertungen für ein Motorrad oder einen Besitzer können angezeigt werden.
+## 5. Kompatibilität
+- Die Anwendung soll in allen gängigen Webbrowsern (z. B. Chrome, Firefox, Safari, Edge) korrekt funktionieren.
+- Das System muss auf verschiedenen Geräten wie Smartphones, Tablets und Desktops nutzbar sein.
 
-### **Zahlungsabwicklung**
-19. **Preisberechnung**: Der Mietpreis wird basierend auf dem Zeitraum automatisch berechnet.
-20. **Zahlungsintegration**: Integration eines Zahlungssystems (z. B. PayPal, Stripe).
+## 6. Fehlerbehandlung
+- Fehlermeldungen sollen präzise und benutzerfreundlich sein.
+- Kritische Fehler müssen automatisch geloggt und Administratoren gemeldet werden.
 
-### **Benachrichtigungen**
-21. **E-Mail-Benachrichtigungen**: Benutzer erhalten E-Mails für wichtige Ereignisse (z. B. Bestätigung einer Buchung, Änderung des Rides).
-22. **Systembenachrichtigungen**: Administratoren erhalten Benachrichtigungen bei ungewöhnlichen Aktivitäten.
-
-### **Administrationsfunktionen**
-23. **Verwaltung aller Benutzer**: Administratoren können Benutzerkonten einsehen und verwalten.
-24. **Überwachung der Motorräder**: Administratoren können die hinzugefügten Motorräder einsehen und ggf. entfernen.
-25. **Überprüfung von Rides**: Administratoren können alle Rides einsehen und verwalten.
 
 
 ## Mockup/Skizze von UIs
