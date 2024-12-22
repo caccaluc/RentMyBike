@@ -24,10 +24,3 @@ In den nächsten Schritten sollten die verbleibenden Aufgaben und offenen Punkte
 
 ---
 
-### Persönliches Fazit
-
-Die Entwicklung dieser Applikation war für mich eine äusserst lehrreiche und bereichernde Erfahrung. Der Prozess ermöglichte es mir, mein technisches Wissen zu vertiefen und mich mit neuen Technologien sowie Konzepten vertraut zu machen. 
-
-Dabei wurde mir deutlich, wie wichtig eine sorgfältige Planung ist. Häufig musste ich Code nachträglich anpassen, was viel Zeit in Anspruch nahm. Für zukünftige Projekte plane ich, mehr Zeit in die Planungsphase zu investieren, um den Entwicklungsprozess effizienter zu gestalten. Ebenso hat sich gezeigt, dass eine durchdachte Code-Struktur von Anfang an entscheidend ist, um späteren Aufwand zu minimieren und die Wartbarkeit zu erhöhen.
-
-Abschliessend lässt sich sagen, dass dieses Projekt nicht nur meine technischen Fähigkeiten geschärft hat, sondern mir auch verdeutlichte, wie essenziell Planung, Strukturierung und Qualitätssicherung in der Softwareentwicklung sind.

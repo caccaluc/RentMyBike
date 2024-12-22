@@ -31,7 +31,7 @@ Auf der Seite "Vermietung finden" hat der User eine Übersicht aller verfügbare
 Zusätzlich werden einem viele Filtermöglichkeiten zur Vefügung gestellt. Diese können auch in Kombination verwendet werden. Es wurden möglichst viele Filtermöglichkeiten abgedecket und mit den Queries im RideRepository erstellt.
 Als Beispiel, Stadt = Zürich und max Preis = 150: http://localhost:8080/rides/ridesOverview?page=1&minPrice=null&maxPrice=150&city=Z%C3%BCrich&startTime=&endTime=
 
-![Vermietung](./figures/Vermietung_übersicht.png)
+![Vermietung](./figures/Vermietungen_übersicht.png)
 
 ### Motorrad Details
 
