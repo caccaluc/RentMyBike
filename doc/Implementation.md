@@ -16,7 +16,7 @@ Nach dem Anmelden erscheinen in der Navigationsleiste alle Views die für einen 
 
 Der User kann sich über folgende Maske anmelden oder Registrieren. Sowohl bei der Anmeldemaske als auch bei der Registrationsmaske kann man entweder in die Anmeldung oder Registration wechseln. 
 
-![Anmeldung](./figures/Anmeldung.png) ![Registrierung](./figures/Registrierung.png)
+![Anmeldung](./figures/Anmelden.png) ![Registrierung](./figures/Registrierung.png)
 
 ### Benutzerdaten vervollständigen
 
