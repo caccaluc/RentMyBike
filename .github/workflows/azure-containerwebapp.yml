@@ -1,7 +1,7 @@
 name: Build and deploy a container to an Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: zhaw-rentmybike-luca
+  AZURE_WEBAPP_NAME: zhaw-caccaluc
 
 on:
   push:
